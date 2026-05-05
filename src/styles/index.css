@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =====================================================
+   Design tokens — Mediterranean editorial palette
+   Mirrors the Lovable UI aesthetic but defined cleanly.
+   ===================================================== */
+@layer base {
+  :root {
+    /* Surfaces */
+    --background: 42 33% 96%;        /* Soft limestone */
+    --paper: 38 38% 92%;             /* Slightly warmer paper */
+    --border: 35 20% 78%;            /* Muted rule */
+
+    /* Ink (text) */
+    --ink: 215 35% 15%;              /* Deep nautical ink */
+    --ink-soft: 215 25% 30%;         /* Body text */
+    --ink-mute: 215 15% 50%;         /* Captions, metadata */
+
+    /* Accents */
+    --sea: 200 65% 30%;              /* Mediterranean blue, used for links */
+    --accent: 30 80% 45%;            /* Terracotta, used for category labels */
+    --terracotta: 18 65% 50%;        /* Same family, deeper for hero accents */
+  }
+
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--ink));
+    font-family: theme('fontFamily.sans');
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+
+  /* Slightly nicer text rendering for serif headings */
+  h1, h2, h3, h4 {
+    text-rendering: optimizeLegibility;
+  }
+}
+
+/* =====================================================
+   Custom prose extensions for article body
+   ===================================================== */
+@layer components {
+  .prose-nomadmalta {
+    @apply prose prose-lg max-w-none;
+    @apply prose-headings:font-display prose-headings:text-ink;
+    @apply prose-h1:hidden;
+    @apply prose-h2:text-3xl prose-h2:mt-16 prose-h2:mb-6 prose-h2:font-medium prose-h2:tracking-tight;
+    @apply prose-h3:text-xl prose-h3:mt-10 prose-h3:mb-4 prose-h3:font-medium;
+    @apply prose-p:text-ink-soft prose-p:leading-relaxed;
+    @apply prose-a:text-sea prose-a:no-underline hover:prose-a:underline prose-a:font-medium;
+    @apply prose-strong:text-ink prose-strong:font-semibold;
+    @apply prose-ul:text-ink-soft;
+    @apply prose-li:my-1.5;
+    @apply prose-table:my-8 prose-table:text-sm;
+    @apply prose-thead:border-b-2 prose-thead:border-ink;
+    @apply prose-th:text-left prose-th:font-semibold prose-th:text-ink prose-th:py-3 prose-th:px-4;
+    @apply prose-td:py-3 prose-td:px-4 prose-td:border-b prose-td:border-border prose-td:align-top;
+    @apply prose-blockquote:border-l-4 prose-blockquote:border-accent prose-blockquote:font-display prose-blockquote:italic;
+    @apply prose-hr:border-border prose-hr:my-12;
+  }
+}
