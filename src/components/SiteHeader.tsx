@@ -23,6 +23,12 @@ export default function SiteHeader() {
             </Link>
           )}
           <Link
+            to="/malta"
+            className="text-ink-soft hover:text-ink transition-colors"
+          >
+            Malta
+          </Link>
+          <Link
             to="/guides"
             className="text-ink-soft hover:text-ink transition-colors"
           >
