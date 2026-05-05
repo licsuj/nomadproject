@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 export default function SiteFooter() {
   return (
-    <footer className="border-t border-border bg-paper mt-16">
+    <footer className="border-t border-border bg-paper">
       <div className="container max-w-6xl py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           <div>
