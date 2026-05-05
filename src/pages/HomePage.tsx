@@ -125,6 +125,28 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ============== MALTA TEASER STRIP ============== */}
+      <section className="border-b border-border bg-paper">
+        <div className="container max-w-5xl py-10">
+          <Link
+            to="/malta"
+            className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 group"
+          >
+            <div className="flex items-center gap-5">
+              <span className="font-mono text-xs uppercase tracking-widest text-accent">
+                Aside
+              </span>
+              <span className="text-base md:text-lg text-ink-soft">
+                First time looking at Malta?{' '}
+                <span className="text-ink font-medium group-hover:underline">
+                  Twelve facts worth knowing →
+                </span>
+              </span>
+            </div>
+          </Link>
+        </div>
+      </section>
+
       {/* ============== NEIGHBOURHOODS ============== */}
       <section className="border-b border-border">
         <div className="container max-w-6xl py-20">
