@@ -28,17 +28,17 @@ Miss any of those five and the application doesn't proceed. There is no flexibil
 
 ## What the application actually costs
 
-Here is the gap between the official cost ("€300 admin fee plus €27.50 card fee") and the realistic upfront cost. The difference matters because the missing €19,000 is what catches applicants by surprise once they're already committed.
+Here is the gap between the official government fee ("€300 admin fee plus €100 card fee") and the realistic upfront cost. The difference matters because the missing €19,000 is what catches applicants by surprise once they're already committed.
 
 | Item | Realistic cost | Notes |
 |---|---|---|
 | Government application fee | €300 per applicant | Plus €300 per dependant |
-| Residence card issuance | €27.50 per person | Paid in person, card payment only |
+| Residence card issuance | €100 per person | Paid in person at Residency Malta, card payment only. Many third-party guides still cite €27.50 — that figure is outdated. |
 | Document translation and apostille | €1,500–€3,000 | Birth certificates, marriage certificate, police records, employment contracts |
-| Health insurance (annual, prepaid) | €500–€1,200 per person | Must meet Malta's €100K minimum coverage requirement updated March 2026 |
-| Immigration agent fees | €1,500–€4,000 | Optional but recommended; varies by firm and family size |
+| Health insurance (annual, prepaid) | €500–€1,200 per person | Must meet Malta's €100,000 minimum coverage table (in force since August 2024). Travel insurance not accepted. UK nationals are exempt. |
+| Immigration agent fees | €1,500–€3,000 | Optional, not legally required. Strongly recommended for risk reduction; varies by firm and family size. |
 | Property agent commission | €600–€1,400 | Half-month rent commission on a long lease |
-| Lease deposit + first month rent | €2,400–€4,200 | Typical Sliema/Gzira 1-bed at €1,200–€1,400 monthly |
+| Lease deposit + first month rent | €2,400–€4,200 | Typical Sliema/Gzira 1-bed at €1,100–€1,500 monthly |
 | Utility deposits and setup | €200–€400 | ARMS water/electricity, internet installation |
 | Bank account opening (if local) | €0–€200 | Most nomads use Wise or Revolut; local Maltese banks slow and document-heavy |
 | 5-month income buffer | Bank balance, not a fee | Residency Malta expects at least €17,500 in your account at application |
@@ -93,11 +93,13 @@ The grey zones are real. If you're a freelance consultant whose 95% revenue is f
 
 ### 4. You hold valid health insurance with €100,000+ coverage
 
-Health insurance requirements got more demanding in 2026. The minimum coverage was raised to €100,000 across the EU and UK, and the policy must be prepaid for a full year — monthly-payment policies are no longer accepted.
+The minimum policy coverage is €100,000, set out in Residency Malta Agency's published Health Coverage Table of Minimum Benefits. The current table dates to June 2025 and applies to all new applications submitted from 1 August 2024. The policy must be fully prepaid for one year — monthly-payment policies are not accepted.
 
-The official table of minimum benefits is published by Residency Malta Agency and lists specific cover requirements (hospitalisation, repatriation, prescription medication, etc). Your foreign policy may already meet these requirements; many do not. Check the table before assuming.
+The table specifies cover requirements line by line: in-patient and day cases, surgery, specialist consultations, cancer treatment, MRI/CT/PET scans, family doctor visits, prescribed drugs, emergency ambulance, and so on. Each line has its own annual sub-limit. Your foreign policy may already meet these requirements; many widely-marketed "digital nomad" plans (including some SafetyWing and Genki tiers) do not. Check the table line-by-line before purchasing.
 
-Common compliant providers include international expat insurers like Cigna Global, Allianz Care, and APRIL International. Travel insurance (Schengen tourist policy) is **not** acceptable for the NRP.
+UK nationals are an exception — they have reciprocal access to Maltese public healthcare and do not need private insurance for the NRP.
+
+Common compliant providers for non-UK applicants include international expat insurers like Cigna Global, Allianz Care, APRIL International, and Bupa Global. Travel insurance (Schengen tourist policy) is **not** acceptable.
 
 ### 5. You have a 12-month rental or purchase agreement
 
@@ -113,9 +115,9 @@ The official process takes about 30 working days from full submission to Letter 
 
 ### Step 1: Preliminary check (1–2 weeks)
 
-If you engage a licensed agent, they conduct a preliminary due diligence review against international databases before submitting your application. This is the moment where most red flags surface — past visa denials, sanctions exposure, criminal records, AML issues. A good agent flags these before you've paid the government fee.
+The Malta NRP does not legally require a licensed agent — applicants can submit directly through the Residency Malta portal. (This is different from the MPRP, which does require an agent.) Most successful applicants nonetheless engage an agent, and the reason is preliminary due diligence: a good agent runs your file against international databases — past visa denials, sanctions exposure, criminal records, AML issues — before you pay the €300 government fee.
 
-If you apply without an agent (which is technically allowed but strongly inadvisable for first-time applicants), you skip this step at your own risk.
+If you apply without an agent, you skip this step. For a clean profile (clean Schengen history, straightforward foreign employment, country of origin not on any high-risk list), this is workable. For anything with edge cases, the agent fee is the cheapest insurance available against a €19,000+ rejection.
 
 ### Step 2: Document preparation (2–4 weeks)
 

@@ -27,7 +27,7 @@ This guide walks through every line item, with realistic ranges based on 2026 pr
 | Documents | Translation and apostille | €1,500 – €3,000 |
 |  | Police clearance certificate | €30 – €100 |
 | Compliance | Health insurance (annual prepaid) | €500 – €1,200 |
-| Professional services | Immigration agent fees | €1,500 – €4,000 |
+| Professional services | Immigration agent fees | €1,500 – €3,000 |
 | Property | Property agent commission | €600 – €1,400 |
 |  | Lease deposit + first month | €2,400 – €4,200 |
 |  | Utility deposits and setup | €200 – €400 |
@@ -71,11 +71,11 @@ Here's the realistic cost breakdown:
 
 A reasonable midpoint estimate: **€1,500 for a single applicant, €2,500 for a couple, €3,500 for a family of four.** The high end of the range is reached when documents originate in countries with slow apostille processes (Brazil, Russia legacy documents, India, parts of Latin America) where rush fees and re-submissions can add 50% to the bill.
 
-## Health insurance: 2026 just got more expensive
+## Health insurance: not optional, not cheap
 
-The health insurance requirement got materially more demanding in 2026. The minimum coverage was raised to €100,000 across the EU and UK, the policy must be prepaid for a full year, and monthly-payment policies are no longer accepted.
+The minimum coverage is €100,000, set out in Residency Malta Agency's published Health Coverage Table of Minimum Benefits. The current table dates to June 2025 and applies to all new applications submitted from 1 August 2024. The policy must be fully prepaid for one year — monthly-payment policies are not accepted. Travel insurance is not accepted either.
 
-Compliant policies from established providers (Cigna Global, Allianz Care, APRIL International, Bupa Global) typically cost:
+UK nationals are an exception: they have reciprocal access to Maltese public healthcare and don't need to purchase private insurance for the NRP. For everyone else, compliant policies from established providers (Cigna Global, Allianz Care, APRIL International, Bupa Global) typically cost:
 
 **Single applicant, age 30–40, no pre-existing conditions:** €500–€800 for a basic compliant plan.
 
@@ -105,7 +105,7 @@ Realistic agent fee ranges:
 
 The agent fee is what most applicants try to skip first when calculating their relocation budget. This is almost always a mistake. The fee buys preliminary due diligence (which catches issues before you've paid the €300 government fee), document checklist guidance (which prevents the 30% of rejections caused by document errors), and post-approval support (handling the lease registration, the biometrics booking, and the renewal cycle).
 
-The choice isn't whether to engage an agent. The choice is which agent. The [agent comparison guide](/guides/choosing-immigration-agent) covers the framework.
+For most applicants with any complexity in their case, the choice isn't whether to engage an agent — it's which agent. For applicants with a clean profile, direct application is workable, and the [agent comparison guide](/guides/choosing-immigration-agent) walks through both decisions.
 
 ## Property: where Malta's housing market gets aggressive
 

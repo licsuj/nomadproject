@@ -10,15 +10,25 @@ category: "Agent selection"
 order: 4
 ---
 
-There are roughly twenty firms holding licences from Aġenzija Komunità Malta to act as agents for the Nomad Residence Permit. They range from large multi-jurisdictional law firms to specialist immigration practices to two-person consultancies. Their fees vary by a factor of three. Their actual quality of service varies by considerably more.
+A licensed agent is not legally required for the Nomad Residence Permit. You can submit directly through the Residency Malta portal yourself — and at the right risk profile (clean Schengen history, straightforward foreign employment, low-friction origin country), DIY application is workable. (This is different from Malta's Permanent Residence Programme, where a licensed agent is mandatory.)
+
+But most successful NRP applicants engage an agent anyway. The reason is risk reduction, not regulatory compliance. The Residency Malta Agency maintains a published list of licensed agents on its website, and the firms on that list range from large multi-jurisdictional law firms to specialist immigration practices to two-person consultancies. Their fees vary by a factor of three. Their actual quality of service varies by considerably more.
 
 You will not find an honest comparison of these firms anywhere. The firms themselves cannot publish one — comparing your direct competitors is a fast track to professional reputation problems. Industry directories that claim to rank them are usually selling featured placements. Forum threads where applicants compare experiences are useful but fragmented and out of date.
 
 This guide gives you a framework for choosing well. It does not name names — the listing of recommended firms lives in the [directory](/directory) where partner relationships are disclosed. The framework here is independent of which firm you ultimately pick.
 
+## Should you engage an agent at all?
+
+Skip the rest of this article if your case is clean: stable foreign employment with a non-Maltese employer, clean three-year Schengen history, no AML or sanctions exposure, no criminal record, country of origin not on Malta's high-risk list, and no complex family situation. The €1,500–€3,000 agent fee is real money for low marginal benefit on a clean application.
+
+Engage an agent if any of these are true: prior Schengen visa denial in the past five years, family member or business partner with potential AML exposure, complex corporate ownership structure, country of origin where apostille processing is slow or document quality is variable, prior Maltese tax history, mixed income sources where the €42K threshold needs careful documentation, or you simply prefer to outsource the process and have someone else manage the timeline.
+
+The cost of a rejected application is roughly €19,000–€25,000 in already-committed costs (lease, document prep, flights, etc.) plus a 12-month wait before reapplying. Against that, an agent fee of €1,500–€3,000 is the cheapest insurance available — but only if your case has genuine risk factors. For a clean profile, you're paying for peace of mind, not for outcome change.
+
 ## The first realisation
 
-Most applicants approach agent selection backwards. They look at fee. They pick the cheapest one. They get what they pay for.
+Most applicants who do engage an agent approach the selection backwards. They look at fee. They pick the cheapest one. They get what they pay for.
 
 The right starting point is to understand what you're actually buying.
 
@@ -40,13 +50,13 @@ The fee differential between a good agent and a bad agent is often smaller than 
 
 Below is the framework I'd use to evaluate any agent. None of these dimensions is decisive on its own. Together they give you a usable picture.
 
-### 1. Licence status and registration number
+### 1. Licensed status
 
-Every legitimate agent holds a licence from Aġenzija Komunità Malta with a specific registration number, typically formatted as `AKM-` followed by an identifier (e.g. AKM-ACCA, AKM-GVZH-21). The licence is verifiable through the official agents list on the Residency Malta website.
+Every legitimate agent appears on the Residency Malta Agency's published agents list. The list is the authoritative source — verify any firm you're considering against it before doing anything else.
 
 This is the most basic check and the easiest one to skip. Verify before any other consideration.
 
-If a firm presenting itself as an immigration agent doesn't have a current licence number, walk away — even if their service offer looks attractive. Working with an unlicensed firm puts your application at risk of administrative rejection on procedural grounds alone.
+If a firm presenting itself as an immigration agent does not appear on the official list, walk away — even if their service offer looks attractive. Working with an unlicensed firm exposes you to two specific risks: their work product may not be accepted by the Agency on procedural grounds, and you have no professional-conduct recourse if something goes wrong.
 
 ### 2. Licence age and case volume
 
@@ -164,7 +174,7 @@ Here is the email I would send to three or four candidate agents at the start of
 >
 > 1. Confirm whether my profile presents any issues you can identify at this stage
 > 2. Provide a written fee quote covering the application through to residence card collection, with a separate line for renewal year fees
-> 3. Indicate your firm's licence number and approximate NRP application volume in the past 24 months
+> 3. Confirm your firm's current listing on the Residency Malta agents register and approximate NRP application volume in the past 24 months
 > 4. Confirm what is included in the fee (preliminary due diligence, document checklist, lease registration, biometrics support, etc.)
 >
 > Happy to schedule a call after I've had a chance to review your written response. I'm in conversation with two other firms in parallel.
@@ -188,11 +198,11 @@ Beyond the dimensions above, these are signals that strongly suggest you should 
 
 **Pressure to commit quickly.** "We can submit this week if you wire the fee today" is a sales script. The actual application timeline is 30–60 days; there is no urgency that justifies skipping due diligence.
 
-**Refusal to provide their licence number.** Trivial to verify, free to provide. Refusal is informative.
+**Refusal to confirm their listing on the Residency Malta agents register.** Trivial to verify, free to provide. Refusal is informative.
 
 **A request to open a Maltese bank account in their name to "facilitate the application."** No legitimate process requires this. Application fees come from your own account, period. This pattern is a fraud signal.
 
-**Fees significantly below market.** The €1,500–€4,000 range for single-applicant fees reflects what serious firms need to charge to deliver the service properly. €500 quotes typically mean either the firm is not actually doing the work, or they're using your application as a loss-leader to upsell more expensive services later.
+**Fees significantly below market.** The €1,500–€3,000 range for single-applicant fees reflects what serious firms need to charge to deliver the service properly. €500 quotes typically mean either the firm is not actually doing the work, or they're using your application as a loss-leader to upsell more expensive services later.
 
 ## A note on tier-1 law firms vs specialist immigration consultancies
 
