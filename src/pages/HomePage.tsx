@@ -40,7 +40,7 @@ export default function HomePage() {
 
           <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-3xl">
             <Stat value="€42K" label="Minimum income / year" />
-            <Stat value="10%" label="Flat tax after year 1" />
+            <Stat value="10%" label="Flat tax, year 2+" />
             <Stat value="4 years" label="Maximum stay" />
             <Stat value="1,031" label="2024 applications" />
           </div>
@@ -71,7 +71,7 @@ export default function HomePage() {
           <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-4">
             <EligibilityCard n="01" title="Non-EU passport" detail="Non-EU, non-EEA, non-Swiss national. Some countries currently ineligible (Russia, Belarus, Iran, others)." />
             <EligibilityCard n="02" title="€42,000+ from foreign work" detail="Gross annual income from genuinely foreign employment, freelance clients, or your own non-Maltese company." />
-            <EligibilityCard n="03" title="€100K health insurance" detail="Annual prepaid policy meeting Malta's March 2026 minimum coverage table. Travel insurance not accepted." />
+            <EligibilityCard n="03" title="€100K health insurance" detail="Annual prepaid policy meeting Malta's minimum coverage table (in force since August 2024). Travel insurance not accepted. UK nationals exempt — they have reciprocal access to Maltese healthcare." />
             <EligibilityCard n="04" title="12-month accommodation" detail="Signed and registered lease (or property purchase) in Malta for the validity period of the permit." />
           </div>
           <p className="mt-10 text-base text-ink-mute italic max-w-3xl">
@@ -132,10 +132,10 @@ export default function HomePage() {
             Four places to base, <span className="italic">honestly compared.</span>
           </SectionHead>
           <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-5">
-            <Hood n="i." name="Sliema" tag="Highest density of nomads" stats={[['1-bed rent', '€1,400+'], ['Coworking spaces', '5+'], ['Trade-off', 'Cost']]} />
-            <Hood n="ii." name="Gzira" tag="Cheaper, walkable, growing" stats={[['1-bed rent', '€1,100+'], ['Coworking spaces', '3'], ['Trade-off', 'Less polished']]} />
-            <Hood n="iii." name="Valletta" tag="Historic centre, limited stock" stats={[['1-bed rent', '€1,300+'], ['Coworking spaces', '1'], ['Trade-off', 'Tourist density']]} />
-            <Hood n="iv." name="Gozo" tag="Slower, half the rent" stats={[['1-bed rent', '€700+'], ['Coworking spaces', '1'], ['Trade-off', 'Ferry to mainland']]} />
+            <Hood n="i." name="Sliema" tag="Where most nomads end up" stats={[['1-bed rent', '€1,100–1,500'], ['Coworking spaces', '5+'], ['Trade-off', 'Cost']]} />
+            <Hood n="ii." name="Gzira" tag="Cheaper neighbour, same walk to coworking" stats={[['1-bed rent', '€750–1,100'], ['Coworking spaces', '3'], ['Trade-off', 'Less polished']]} />
+            <Hood n="iii." name="Valletta" tag="Historic centre, limited stock" stats={[['1-bed rent', '€800–1,200'], ['Coworking spaces', '1'], ['Trade-off', 'Tourist density']]} />
+            <Hood n="iv." name="Gozo" tag="Slower pace, roughly half the rent" stats={[['1-bed rent', '€500–750'], ['Coworking spaces', '1'], ['Trade-off', 'Ferry to mainland']]} />
           </div>
         </div>
       </section>
@@ -196,9 +196,13 @@ export default function HomePage() {
             </div>
           )}
 
-          <div className="mt-10">
-            <Link to="/guides" className="inline-flex items-center gap-2 text-sm text-sea hover:underline font-medium">
-              See all guides →
+          <div className="mt-12 pt-8 border-t border-border">
+            <Link
+              to="/guides"
+              className="inline-flex items-center gap-2 font-display text-lg text-ink hover:text-sea transition-colors group"
+            >
+              <span>See all guides</span>
+              <span className="transition-transform group-hover:translate-x-1">→</span>
             </Link>
           </div>
         </div>
@@ -272,7 +276,7 @@ export default function HomePage() {
       <section className="border-b border-border bg-paper">
         <div className="container max-w-3xl py-20 text-center">
           <div className="text-xs uppercase tracking-widest text-accent font-mono mb-6">
-            One-page summary
+            № 07 / One-page summary
           </div>
           <h2 className="font-display text-3xl md:text-5xl text-ink font-medium leading-tight mb-6">
             The Malta Nomad Permit <span className="italic">Cheat Sheet</span>, 2026.
@@ -290,7 +294,7 @@ export default function HomePage() {
       {/* ============== FAQ ============== */}
       <section className="border-b border-border">
         <div className="container max-w-3xl py-20">
-          <SectionHead num="07" label="FAQ" subhead="Plain answers to the seven questions readers ask most often. Longer answers in the guides.">
+          <SectionHead num="08" label="FAQ" subhead="Plain answers to the seven questions readers ask most often. Longer answers in the guides.">
             Quick questions, <span className="italic">straight answers.</span>
           </SectionHead>
 
@@ -321,7 +325,7 @@ export default function HomePage() {
       </section>
 
       {/* ============== DISCLOSURE STRIP ============== */}
-      <section className="border-b border-border bg-paper">
+      <section className="bg-background">
         <div className="container max-w-5xl py-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-sm text-ink-mute">
             <Disclosure heading="Editorial only" body="Not a law firm. Not a licensed agent. We don't submit applications." />
@@ -351,10 +355,10 @@ function SectionHead({
 }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 md:gap-12 items-start">
-      <div className="font-mono text-xs uppercase tracking-widest text-accent border-t border-ink pt-3">
+      <div className="font-mono text-xs uppercase tracking-widest text-accent border-t border-ink pt-3 md:pt-4">
         № {num} / {label}
       </div>
-      <div>
+      <div className="md:pt-2">
         <h2 className="font-display text-3xl md:text-5xl text-ink font-medium leading-[1.1] tracking-tight mb-4">
           {children}
         </h2>
@@ -585,10 +589,10 @@ function FaqItem({ q, children }: { q: string; children: React.ReactNode }) {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="w-full flex items-center justify-between gap-4 py-5 text-left group"
+        className="w-full flex items-center justify-between gap-4 py-5 text-left group hover:text-sea transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         aria-expanded={open}
       >
-        <span className="font-display text-lg md:text-xl text-ink font-medium leading-snug">
+        <span className="font-display text-lg md:text-xl text-ink font-medium leading-snug group-hover:text-sea transition-colors">
           {q}
         </span>
         <span className="font-mono text-xl text-accent flex-shrink-0">
