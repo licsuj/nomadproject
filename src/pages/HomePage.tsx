@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { getAllArticles, formatDate } from '@/lib/articles';
 import useSeo from '@/lib/useSeo';
@@ -573,23 +573,30 @@ function DirCard({
 }
 
 function CheatSheetForm() {
-  useEffect(() => {
-    // Beehiiv loader script — loads once, idempotently
-    const SCRIPT_ID = 'beehiiv-form-loader';
-    if (document.getElementById(SCRIPT_ID)) return;
+  const containerRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    if (!containerRef.current) return;
+    // Avoid double-mounting in StrictMode dev or re-renders
+    if (containerRef.current.dataset.mounted === 'true') return;
+    containerRef.current.dataset.mounted = 'true';
+
+    // Inject Beehiiv script INSIDE the container.
+    // Beehiiv's loader, when injected next to a div, renders the form into
+    // that container — avoiding the race condition with React mounting.
     const script = document.createElement('script');
-    script.id = SCRIPT_ID;
     script.src = 'https://subscribe-forms.beehiiv.com/v3/loader.js';
     script.async = true;
-    // NOTE: data-beehiiv-form is NOT set on the script tag.
-    // It is set only on the <div> below where we want the form to render.
-    document.body.appendChild(script);
+    script.setAttribute(
+      'data-beehiiv-form',
+      '7e559a88-ac71-4495-9701-87d4fc89f8b3'
+    );
+    containerRef.current.appendChild(script);
   }, []);
 
   return (
     <div className="max-w-md mx-auto">
-      <div data-beehiiv-form="7e559a88-ac71-4495-9701-87d4fc89f8b3" />
+      <div ref={containerRef} />
     </div>
   );
 }
