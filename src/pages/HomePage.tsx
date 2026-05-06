@@ -582,16 +582,13 @@ function CheatSheetForm() {
     script.id = SCRIPT_ID;
     script.src = 'https://subscribe-forms.beehiiv.com/v3/loader.js';
     script.async = true;
-    script.setAttribute(
-      'data-beehiiv-form',
-      '7e559a88-ac71-4495-9701-87d4fc89f8b3'
-    );
+    // NOTE: data-beehiiv-form is NOT set on the script tag.
+    // It is set only on the <div> below where we want the form to render.
     document.body.appendChild(script);
   }, []);
 
   return (
     <div className="max-w-md mx-auto">
-      {/* Beehiiv form mounts here. Form ID and script loaded via useEffect above. */}
       <div data-beehiiv-form="7e559a88-ac71-4495-9701-87d4fc89f8b3" />
     </div>
   );
