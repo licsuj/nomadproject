@@ -35,13 +35,39 @@ export default function SiteFooter() {
                   The 2026 Permit Guide
                 </Link>
               </li>
+              <li>
+                <Link
+                  to="/malta"
+                  className="text-ink-soft hover:text-ink transition-colors"
+                >
+                  Malta in 12 facts
+                </Link>
+              </li>
             </ul>
           </div>
           <div>
             <div className="text-xs uppercase tracking-widest text-ink-mute font-mono mb-3">
               About
             </div>
-            <p className="text-sm text-ink-mute leading-relaxed">
+            <ul className="space-y-2 text-sm mb-4">
+              <li>
+                <Link
+                  to="/about"
+                  className="text-ink-soft hover:text-ink transition-colors"
+                >
+                  About this site
+                </Link>
+              </li>
+              <li>
+                <a
+                  href="mailto:hello@nomadmalta.com"
+                  className="text-ink-soft hover:text-ink transition-colors"
+                >
+                  Contact
+                </a>
+              </li>
+            </ul>
+            <p className="text-xs text-ink-mute leading-relaxed">
               Not a law firm. Not a licensed agent. Editorial only.
               Recommendations may include affiliate or referral links.
             </p>
