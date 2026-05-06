@@ -3,6 +3,7 @@ import HomePage from '@/pages/HomePage';
 import GuidesIndexPage from '@/pages/GuidesIndexPage';
 import ArticlePage from '@/pages/ArticlePage';
 import MaltaFactsPage from '@/pages/MaltaFactsPage';
+import AboutPage from '@/pages/AboutPage';
 import NotFoundPage from '@/pages/NotFoundPage';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
@@ -15,6 +16,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/malta" element={<MaltaFactsPage />} />
+          <Route path="/about" element={<AboutPage />} />
           <Route path="/guides" element={<GuidesIndexPage />} />
           <Route path="/guides/:slug" element={<ArticlePage />} />
           <Route path="*" element={<NotFoundPage />} />
