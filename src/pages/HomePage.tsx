@@ -8,6 +8,19 @@ export default function HomePage() {
     title: 'NomadMalta — The Malta nomad permit, without the brochure copy',
     description:
       'Working guides on the Malta Nomad Residence Permit. Cost, process, eligibility, and the edge cases nobody else publishes.',
+    canonicalPath: '/',
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: 'NomadMalta',
+      url: 'https://nomadmalta.com',
+      description:
+        'Working guides on the Malta Nomad Residence Permit, written from Malta.',
+      publisher: {
+        '@type': 'Organization',
+        name: 'NomadMalta',
+      },
+    },
   });
 
   useEffect(() => {
@@ -560,47 +573,27 @@ function DirCard({
 }
 
 function CheatSheetForm() {
-  const [email, setEmail] = useState('');
-  const [submitted, setSubmitted] = useState(false);
+  useEffect(() => {
+    // Beehiiv loader script — loads once, idempotently
+    const SCRIPT_ID = 'beehiiv-form-loader';
+    if (document.getElementById(SCRIPT_ID)) return;
 
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    if (!email.includes('@')) return;
-    // TODO: connect to Beehiiv / ConvertKit / Resend webhook.
-    // For now, just acknowledge — collect emails server-side later.
-    setSubmitted(true);
-  }
-
-  if (submitted) {
-    return (
-      <div className="max-w-md mx-auto p-5 border border-border bg-background">
-        <p className="text-base text-ink leading-relaxed">
-          Thanks. The cheat sheet will arrive shortly. We'll only email you when the regulation changes.
-        </p>
-      </div>
+    const script = document.createElement('script');
+    script.id = SCRIPT_ID;
+    script.src = 'https://subscribe-forms.beehiiv.com/v3/loader.js';
+    script.async = true;
+    script.setAttribute(
+      'data-beehiiv-form',
+      '7e559a88-ac71-4495-9701-87d4fc89f8b3'
     );
-  }
+    document.body.appendChild(script);
+  }, []);
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="max-w-md mx-auto flex flex-col sm:flex-row gap-3"
-    >
-      <input
-        type="email"
-        required
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="your@email.com"
-        className="flex-1 px-4 py-3 bg-background border border-border text-ink placeholder:text-ink-mute focus:border-ink focus:outline-none text-sm"
-      />
-      <button
-        type="submit"
-        className="px-6 py-3 bg-ink text-background hover:bg-ink-soft transition-colors text-sm font-medium whitespace-nowrap"
-      >
-        Send the PDF
-      </button>
-    </form>
+    <div className="max-w-md mx-auto">
+      {/* Beehiiv form mounts here. Form ID and script loaded via useEffect above. */}
+      <div data-beehiiv-form="7e559a88-ac71-4495-9701-87d4fc89f8b3" />
+    </div>
   );
 }
 

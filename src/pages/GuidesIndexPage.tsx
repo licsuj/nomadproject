@@ -14,6 +14,20 @@ export default function GuidesIndexPage() {
     title: 'Guides — NomadMalta',
     description:
       'All guides on the Malta Nomad Residence Permit: cost, process, eligibility, renewal, and the edge cases nobody else publishes.',
+    canonicalPath: '/guides',
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: 'NomadMalta guides',
+      url: 'https://nomadmalta.com/guides',
+      description:
+        'All guides on the Malta Nomad Residence Permit.',
+      isPartOf: {
+        '@type': 'WebSite',
+        name: 'NomadMalta',
+        url: 'https://nomadmalta.com',
+      },
+    },
   });
 
   return (

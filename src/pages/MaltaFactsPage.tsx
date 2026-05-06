@@ -47,7 +47,7 @@ const facts: Fact[] = [
   {
     symbol: '⛪',
     headline: '~83% Roman Catholic',
-    context: 'Culturally Catholic, legally secular.',
+    context: 'Constitutionally Catholic, day-to-day relaxed.',
   },
   {
     symbol: '🏛️',
@@ -60,9 +60,9 @@ const facts: Fact[] = [
     context: 'Valletta, the Megalithic Temples, and the Hypogeum.',
   },
   {
-    symbol: '🚗',
-    headline: 'Drive on the left',
-    context: 'A British colonial legacy.',
+    symbol: '🎰',
+    headline: 'Global iGaming capital',
+    context: 'Over 300 licensed gaming companies. ~12% of national GDP.',
   },
   {
     symbol: '💶',
@@ -76,6 +76,20 @@ export default function MaltaFactsPage() {
     title: 'Malta in 12 facts — NomadMalta',
     description:
       'Twelve verified facts about Malta — sunshine, holidays, LGBTQ+ rights, language, currency, and more. The quick orientation for anyone considering Malta as a base.',
+    canonicalPath: '/malta',
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'AboutPage',
+      name: 'Malta in 12 facts',
+      url: 'https://nomadmalta.com/malta',
+      description:
+        'Twelve verified facts about Malta for anyone considering it as a 1–4 year base.',
+      isPartOf: {
+        '@type': 'WebSite',
+        name: 'NomadMalta',
+        url: 'https://nomadmalta.com',
+      },
+    },
   });
 
   useEffect(() => {

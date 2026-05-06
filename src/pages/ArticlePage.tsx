@@ -19,6 +19,32 @@ export default function ArticlePage() {
   useSeo({
     title: article ? `${article.title} — NomadMalta` : 'Article — NomadMalta',
     description: article?.description,
+    canonicalPath: article ? `/guides/${article.slug}` : undefined,
+    jsonLd: article
+      ? {
+          '@context': 'https://schema.org',
+          '@type': 'Article',
+          headline: article.title,
+          description: article.description,
+          datePublished: article.updated,
+          dateModified: article.updated,
+          author: {
+            '@type': 'Organization',
+            name: 'NomadMalta',
+            url: 'https://nomadmalta.com',
+          },
+          publisher: {
+            '@type': 'Organization',
+            name: 'NomadMalta',
+            url: 'https://nomadmalta.com',
+          },
+          mainEntityOfPage: {
+            '@type': 'WebPage',
+            '@id': `https://nomadmalta.com/guides/${article.slug}`,
+          },
+          articleSection: article.category,
+        }
+      : undefined,
   });
 
   if (!article) {
