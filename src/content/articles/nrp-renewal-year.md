@@ -3,8 +3,8 @@ title: "The Renewal Year"
 subtitle: "What happens at month 12, in order"
 slug: "nrp-renewal-year"
 description: "What you actually need to do at month 9, month 11, month 13. The five-month rule in practice, the bank statement evidence requirement, the tax filing nobody warns you about, and what gets renewals denied."
-published: "2026-05-05"
-updated: "2026-05-05"
+published: "2026-05-12"
+updated: "2026-05-12"
 readingTime: "11 min read"
 category: "Permit guide"
 order: 5
@@ -67,7 +67,9 @@ Most of the original application requirements still apply, but with a few import
 
 **Employment status documents.** Your current employment contract, freelance agreements, or self-employment evidence. If anything has changed since the original application — new employer, new clients, new business structure — you submit the updated documents. If nothing has changed, you re-submit the same evidence.
 
-**Police conduct certificate.** Some agents tell clients this is needed at every renewal. The official renewal checklist (March 2023 version, which is the most recent published version) does not list a police conduct certificate as a renewal requirement. The Agency may request one if anything in your background suggests it's worth re-checking. Plan for this as a possibility, not a certainty.
+**Police conduct certificate.** Required at renewal as well as at initial application. The certificate must be original, less than 6 months old at the time of renewal submission, and translated to English if not already. Some countries (Australia, New Zealand, USA, UK, Canada) don't require apostille/legalisation; others do. Plan a 4–8 week lead time to obtain it, depending on your country.
+
+**Tax compliance declaration (second and third renewals only).** From renewal year two onwards, Residency Malta requires a signed declaration confirming you've complied with applicable tax laws and reporting obligations. The form is downloadable from the Residency Malta portal. This requirement does NOT apply at your first renewal — only at the second and third.
 
 **Health insurance.** A renewed annual policy meeting Malta's €100,000 minimum coverage. Submit it at the Letter of Approval in Principle stage, not at initial submission. UK nationals remain exempt.
 
@@ -140,7 +142,7 @@ A working checklist for what to do when:
 
 **Month 8:** Open a Maltese bank account if you haven't yet. Check your existing Maltese bank statements for clear evidence of presence. Set up direct debit for utilities to your Maltese account if possible.
 
-**Month 9:** Audit your income against the threshold. Audit your Maltese client list (have any of your clients become Maltese-based?). Engage a Maltese tax accountant for your first year's filing.
+**Month 9:** Audit your income against the threshold. Audit your Maltese client list (have any of your clients become Maltese-based?). Engage a Maltese tax accountant for your first year's filing. Begin requesting your police conduct certificate from your home country (4–8 weeks lead time).
 
 **Month 10:** Begin gathering renewal documents — three months of recent bank statements, employment contract, lease agreement, insurance policy renewal quote.
 
