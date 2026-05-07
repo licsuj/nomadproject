@@ -50,7 +50,13 @@
   </url>
   <url>
     <loc>https://nomadmalta.com/guides/nrp-renewal-year</loc>
-    <lastmod>2026-05-06</lastmod>
+    <lastmod>2026-05-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://nomadmalta.com/guides/first-malta-tax-return-nrp</loc>
+    <lastmod>2026-05-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
