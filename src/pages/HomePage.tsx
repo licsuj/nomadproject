@@ -317,11 +317,11 @@ export default function HomePage() {
             The Malta Nomad Permit <span className="italic">Cheat Sheet</span>, 2026.
           </h2>
           <p className="text-lg text-ink-soft leading-relaxed max-w-2xl mx-auto mb-10">
-            One PDF. The income floor, document checklist, realistic cost breakdown, and rejection patterns — on a single page you can hand to your accountant.
+            One A4 page. The condensed reference for when you're actually applying — print it, give it to your accountant, keep it on your phone. Everything else lives in the <Link to="/guides" className="text-sea hover:underline">guides</Link>. This is the page you'll come back to.
           </p>
           <CheatSheetForm />
           <p className="mt-5 text-xs text-ink-mute">
-            No spam. Unsubscribe anytime. Updated whenever the regulation changes.
+            We won't email you weekly. Future emails only when regulations change or something significant publishes.
           </p>
         </div>
       </section>
