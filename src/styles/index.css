@@ -3,69 +3,62 @@
 @tailwind utilities;
 
 /* =====================================================
-   Design tokens — Mediterranean editorial palette
-   Mirrors the Lovable UI aesthetic but defined cleanly.
+   NomadMalta — same visual system as spots.nomadmalta.com
+   Colours live in tailwind.config.ts.
    ===================================================== */
 @layer base {
-  :root {
-    /* Surfaces */
-    --background: 42 33% 96%;        /* Soft limestone */
-    --paper: 38 38% 92%;             /* Slightly warmer paper */
-    --border: 35 20% 78%;            /* Muted rule */
-
-    /* Ink (text) */
-    --ink: 215 35% 15%;              /* Deep nautical ink */
-    --ink-soft: 215 25% 30%;         /* Body text */
-    --ink-mute: 215 15% 50%;         /* Captions, metadata */
-
-    /* Accents */
-    --sea: 200 65% 30%;              /* Mediterranean blue, used for links */
-    --accent: 30 80% 45%;            /* Terracotta, used for category labels */
-    --terracotta: 18 65% 50%;        /* Same family, deeper for hero accents */
-  }
-
-  * {
-    border-color: hsl(var(--border));
-  }
-
-  html {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
+  * { border-color: theme('colors.line'); }
+  html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
   body {
-    background-color: hsl(var(--background));
-    color: hsl(var(--ink));
+    background-color: theme('colors.salt');
+    color: theme('colors.ink.DEFAULT');
     font-family: theme('fontFamily.sans');
-    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
   }
-
-  /* Slightly nicer text rendering for serif headings */
-  h1, h2, h3, h4 {
-    text-rendering: optimizeLegibility;
-  }
+  h1, h2, h3 { text-wrap: balance; }
+  :focus-visible { outline: 3px solid theme('colors.luzzu'); outline-offset: 2px; border-radius: 6px; }
+  ::selection { background: theme('colors.luzzu'); color: theme('colors.ink.DEFAULT'); }
 }
 
-/* =====================================================
-   Custom prose extensions for article body
-   ===================================================== */
 @layer components {
+  /* Small uppercase label, as on the spots pages */
+  .eyebrow { @apply font-mono text-[11px] uppercase tracking-[0.08em] text-ink-mute; }
+  .eyebrow-dark { @apply font-mono text-[11px] uppercase tracking-[0.08em] text-luzzu; }
+  .live-dot { @apply inline-flex items-center gap-2; }
+  .live-dot::before { content: ""; width: 7px; height: 7px; border-radius: 9999px; background: theme('colors.turq'); box-shadow: 0 0 0 3px rgba(34,184,198,.22); }
+
+  .display { @apply font-display font-extrabold tracking-[-0.02em] text-ink; }
+  .display em { @apply not-italic text-sea; }
+
+  .card { @apply bg-card rounded-card; }
+  .btn { @apply inline-flex items-center justify-center gap-2 min-h-[48px] px-5 rounded-[14px] font-bold text-[15px] leading-tight transition-colors no-underline; }
+  .btn-y { @apply btn bg-luzzu text-ink hover:brightness-95; }
+  .btn-ink { @apply btn bg-ink text-white hover:bg-ink-soft; }
+  .btn-o { @apply btn bg-card text-ink border-[1.5px] border-ink hover:bg-salt; }
+  .chip { @apply inline-block rounded-md px-2 py-1 font-mono text-[10.5px] uppercase tracking-wider; }
+
+  .panel-dark { @apply relative overflow-hidden bg-grotto text-on-dark; }
+  .panel-dark::before { content: ""; position: absolute; right: -90px; top: -90px; width: 280px; height: 280px; border-radius: 9999px; background: radial-gradient(circle, rgba(34,184,198,.40), transparent 70%); pointer-events: none; }
+
+  /* Article body */
   .prose-nomadmalta {
     @apply prose prose-lg max-w-none;
-    @apply prose-headings:font-display prose-headings:text-ink;
+    @apply prose-headings:font-display prose-headings:text-ink prose-headings:scroll-mt-24;
     @apply prose-h1:hidden;
-    @apply prose-h2:text-3xl prose-h2:mt-16 prose-h2:mb-6 prose-h2:font-medium prose-h2:tracking-tight;
-    @apply prose-h3:text-xl prose-h3:mt-10 prose-h3:mb-4 prose-h3:font-medium;
+    @apply prose-h2:text-[28px] prose-h2:leading-tight prose-h2:mt-14 prose-h2:mb-5 prose-h2:font-extrabold prose-h2:tracking-tight;
+    @apply prose-h3:text-xl prose-h3:mt-9 prose-h3:mb-3 prose-h3:font-bold;
     @apply prose-p:text-ink-soft prose-p:leading-relaxed;
-    @apply prose-a:text-sea prose-a:no-underline hover:prose-a:underline prose-a:font-medium;
+    @apply prose-a:text-sea prose-a:font-semibold prose-a:underline-offset-2 hover:prose-a:underline prose-a:no-underline;
     @apply prose-strong:text-ink prose-strong:font-semibold;
-    @apply prose-ul:text-ink-soft;
-    @apply prose-li:my-1.5;
-    @apply prose-table:my-8 prose-table:text-sm;
-    @apply prose-thead:border-b-2 prose-thead:border-ink;
-    @apply prose-th:text-left prose-th:font-semibold prose-th:text-ink prose-th:py-3 prose-th:px-4;
-    @apply prose-td:py-3 prose-td:px-4 prose-td:border-b prose-td:border-border prose-td:align-top;
-    @apply prose-blockquote:border-l-4 prose-blockquote:border-accent prose-blockquote:font-display prose-blockquote:italic;
-    @apply prose-hr:border-border prose-hr:my-12;
+    @apply prose-ul:text-ink-soft prose-ol:text-ink-soft prose-li:my-1.5 prose-li:marker:text-sea;
+    @apply prose-table:my-8 prose-table:text-sm prose-table:bg-card prose-table:rounded-card prose-table:overflow-hidden;
+    @apply prose-thead:bg-grotto prose-thead:border-0;
+    @apply prose-th:text-left prose-th:font-semibold prose-th:text-on-dark prose-th:py-3 prose-th:px-4;
+    @apply prose-td:py-3 prose-td:px-4 prose-td:border-b prose-td:border-line prose-td:align-top;
+    @apply prose-blockquote:border-l-4 prose-blockquote:border-luzzu prose-blockquote:bg-card prose-blockquote:rounded-r-xl prose-blockquote:py-1 prose-blockquote:not-italic prose-blockquote:font-medium prose-blockquote:text-ink;
+    @apply prose-hr:border-line prose-hr:my-12;
+    @apply prose-code:text-grotto prose-code:bg-card prose-code:rounded prose-code:px-1 prose-code:before:content-none prose-code:after:content-none;
   }
+  /* Wide tables scroll inside themselves, never the page */
+  .prose-nomadmalta table { display: block; overflow-x: auto; }
 }
