@@ -19,7 +19,7 @@ const UI = {
   en: {
     htmlLang:"en", title:"Blue Grotto Shot Board", switchTo:"中文", switchAria:"切换到中文",
     draft:"<b>Curator preview.</b> {n}/{t} posts verified. Visitors don't see this bar, example numbers or draft spots.",
-    eyebrow:"Posted from here", h1:"What people post from <em>this exact spot</em>",
+    eyebrow:"Checked by hand", h1:"What people post from <em>this exact spot</em>",
     sub:"Real posts from this viewpoint, what they share, and one you can shoot in 5 minutes.",
     make:"Make this post", free:"Free · no sign-up",
     hook:"Hook", easy:"Easy to copy", car:"Needs a car", open:"Open post ↗", pending:"Link pending", illus:"Illustration · verified post goes here", illusPublic:"Illustration", illusOpen:"Illustration · open the post to watch", subNone:"The kinds of posts people make from this viewpoint, what they share, and one you can shoot in 5 minutes.",
@@ -45,7 +45,7 @@ const UI = {
   zh: {
     htmlLang:"zh-CN", title:"马耳他蓝洞 · 拍同款", switchTo:"EN", switchAria:"Switch to English",
     draft:"<b>预览模式。</b>已核实 {n}/{t} 条帖子。访客看不到此提示、示例数字和草稿景点。",
-    eyebrow:"在这里发出的帖子", h1:"这个机位，<br><em>大家都在拍什么</em>",
+    eyebrow:"人工核对", h1:"这个机位，<br><em>大家都在拍什么</em>",
     sub:"这里的真实帖子、它们的共同点，和一条 5 分钟就能拍完的同款。",
     make:"拍同款", free:"免费 · 无需注册",
     hook:"开头", easy:"容易拍", car:"需要开车", open:"查看原帖 ↗", pending:"链接待补充", illus:"示意图 · 待放入已核实的帖子", illusPublic:"示意图", illusOpen:"示意图 · 点“查看原帖”观看", subNone:"这个机位常见的帖子类型、它们的共同点，和一条 5 分钟就能拍完的同款。",

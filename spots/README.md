@@ -72,9 +72,9 @@ A public view count is allowed only if you read it yourself, with the date. In c
 1. ✅ 5 verified posts added. Still to do: add the creator handle for posts 2 and 3. Once you say which posts open on the water and which reveal the arch, the "Colour first" and "Reveal the arch" patterns can go back on the page (they're preview-only until then).
 2. Leave `thumb` empty unless the creator has given written permission.
 3. Fix each pattern's `seenIn`, and delete any pattern that appears in fewer than 2 posts.
-4. Register your accounts and fill `handles`. Keep the `trackTag` tags. Search both weekly by hand.
-5. Set `coords` (from Google Maps: long-press the pin) to enable the 高德 link.
-6. Set `CONTACT` at the top of `assets/board.js`.
+4. ✅ `@maltashotboard` added for Instagram and TikTok. Still to do: add your 小红书 ID to `handles.red`. Keep the `trackTag` tags. Search both weekly by hand.
+5. ✅ Map coordinates added (the Chinese page now shows a 高德 link).
+6. ✅ Contact set to hello@nomadmalta.com.
 7. Set `draft: false` in `data.js`.
 8. Delete the `<meta name="robots" content="noindex">` line in both `blue-grotto/index.html` and `blue-grotto/zh/index.html`, so search engines can list the page.
 

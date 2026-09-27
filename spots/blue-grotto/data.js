@@ -16,11 +16,11 @@ window.LOCATION = {
   maps: {
     google: "https://maps.app.goo.gl/mhLzaVBHZMs81vwW7",
     apple:  "https://maps.apple.com/?q=Blue%20Wall%20and%20Grotto%20Viewpoint%2C%20Zurrieq%2C%20Malta",
-    coords: null                     // e.g. [35.82, 14.45] → adds a 高德 (Amap) pin link on the Chinese page
+    coords: [35.82228959487456, 14.458313624490671]   // viewpoint pin → adds a 高德 (Amap) pin link on the Chinese page
   },
 
   // Your own accounts. Register them first, then fill in. Empty = hidden.
-  handles: { instagram: "", tiktok: "", red: "" },
+  handles: { instagram: "@maltashotboard", tiktok: "@maltashotboard", red: "" },
   trackTag: { en: "#BlueGrottoShot", zh: "#蓝洞拍同款" },  // unique tags you search weekly
 
   // Booking line (affiliate). Shown as helpful info; link only appears when url is set.
