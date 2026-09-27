@@ -1,12 +1,10 @@
 import { useEffect } from 'react';
-import { useParams, Link, Navigate } from 'react-router-dom';
-import {
-  getArticleBySlug,
-  getRelatedArticles,
-  formatDate,
-} from '@/lib/articles';
-import ArticleRenderer from '@/components/ArticleRenderer';
+import { useParams, Link } from 'react-router-dom';
+import { getArticleBySlug, getRelatedArticles, getHeadings, formatDate } from '@/lib/articles';
+import ArticleRenderer, { slugify } from '@/components/ArticleRenderer';
+import NotFoundPage from '@/pages/NotFoundPage';
 import useSeo from '@/lib/useSeo';
+import { articleSchema, breadcrumbs, withOrg } from '@/lib/schema';
 
 export default function ArticlePage() {
   const { slug } = useParams<{ slug: string }>();
@@ -16,86 +14,84 @@ export default function ArticlePage() {
     window.scrollTo(0, 0);
   }, [slug]);
 
-  useSeo({
-    title: article ? `${article.title} — NomadMalta` : 'Article — NomadMalta',
-    description: article?.description,
-    canonicalPath: article ? `/guides/${article.slug}` : undefined,
-    jsonLd: article
+  useSeo(
+    article
       ? {
-          '@context': 'https://schema.org',
-          '@type': 'Article',
-          headline: article.title,
+          title: `${article.title} — NomadMalta`,
           description: article.description,
-          datePublished: article.updated,
-          dateModified: article.updated,
-          author: {
-            '@type': 'Organization',
-            name: 'NomadMalta',
-            url: 'https://nomadmalta.com',
-          },
-          publisher: {
-            '@type': 'Organization',
-            name: 'NomadMalta',
-            url: 'https://nomadmalta.com',
-          },
-          mainEntityOfPage: {
-            '@type': 'WebPage',
-            '@id': `https://nomadmalta.com/guides/${article.slug}`,
-          },
-          articleSection: article.category,
+          canonicalPath: `/guides/${article.slug}`,
+          ogType: 'article',
+          jsonLd: withOrg(
+            articleSchema(article),
+            breadcrumbs([
+              ['Home', '/'],
+              ['Guides', '/guides'],
+              [article.title, `/guides/${article.slug}`],
+            ])
+          ),
         }
-      : undefined,
-  });
+      : { title: 'Not found — NomadMalta', noindex: true }
+  );
 
-  if (!article) {
-    return <Navigate to="/guides" replace />;
-  }
+  if (!article) return <NotFoundPage />;
 
   const related = getRelatedArticles(article.slug, 3);
+  const headings = getHeadings(article.body);
 
   return (
     <>
-      {/* Breadcrumb */}
-      <div className="border-b border-border">
-        <div className="container max-w-3xl py-4">
-          <Link
-            to="/guides"
-            className="text-sm text-ink-mute hover:text-ink transition-colors"
-          >
-            ← All guides
-          </Link>
-        </div>
-      </div>
-
       {/* Header */}
-      <header className="border-b border-border bg-paper">
-        <div className="container max-w-3xl py-16 md:py-24">
-          <div className="text-xs uppercase tracking-widest text-accent font-mono mb-6">
-            {article.category}
-          </div>
-          <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-medium text-ink leading-[1.1] tracking-tight mb-6">
+      <header className="panel-dark">
+        <div className="container max-w-3xl relative py-10 md:py-16">
+          <nav aria-label="Breadcrumb" className="mb-8 text-sm text-on-dark-mute">
+            <ol className="flex flex-wrap items-center gap-1.5">
+              <li><Link to="/" className="hover:text-white no-underline">Home</Link></li>
+              <li aria-hidden="true">/</li>
+              <li><Link to="/guides" className="hover:text-white no-underline">Guides</Link></li>
+            </ol>
+          </nav>
+          <div className="eyebrow-dark mb-4">{article.category}</div>
+          <h1 className="font-display text-[34px] md:text-5xl lg:text-[56px] font-extrabold leading-[1.05] tracking-[-0.02em] text-white mb-5">
             {article.title}
           </h1>
           {article.subtitle && (
-            <p className="text-xl md:text-2xl text-ink-soft font-display italic leading-snug">
-              {article.subtitle}
-            </p>
+            <p className="text-lg md:text-xl text-on-dark leading-snug">{article.subtitle}</p>
           )}
-          <div className="mt-10 flex flex-wrap gap-x-6 gap-y-2 text-sm text-ink-mute">
-            <span>Updated {formatDate(article.updated)}</span>
-            <span>·</span>
-            <span>{article.readingTime}</span>
+          <div className="mt-8 flex flex-wrap gap-x-4 gap-y-2 text-sm text-on-dark-mute">
+            <span>
+              Updated <time dateTime={article.updated}>{formatDate(article.updated)}</time>
+            </span>
+            {article.published !== article.updated && (
+              <span>
+                · First published <time dateTime={article.published}>{formatDate(article.published)}</time>
+              </span>
+            )}
+            <span>· {article.readingTime}</span>
           </div>
         </div>
       </header>
 
-      {/* Body */}
-      <div className="container max-w-3xl py-12 md:py-16">
+      <div className="container max-w-3xl py-10 md:py-14">
+        {/* On this page */}
+        {headings.length > 2 && (
+          <nav aria-label="On this page" className="card mb-10 p-5">
+            <div className="eyebrow mb-3">On this page</div>
+            <ol className="grid gap-1.5 text-[15px]">
+              {headings.map((h) => (
+                <li key={h}>
+                  <a href={`#${slugify(h)}`} className="font-semibold text-sea no-underline hover:underline">
+                    {h}
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </nav>
+        )}
+
         <ArticleRenderer body={article.body} />
 
         {/* Disclaimer */}
-        <hr className="border-border my-12" />
-        <div className="text-sm text-ink-mute italic leading-relaxed space-y-3">
+        <div className="card mt-14 space-y-3 p-5 text-sm leading-relaxed text-ink-mute">
           <p>
             This guide was last updated on {formatDate(article.updated)}. Where
             the regulation changes, this article will be updated. Where the
@@ -111,27 +107,21 @@ export default function ArticlePage() {
 
       {/* Read next */}
       {related.length > 0 && (
-        <section className="border-t border-border bg-paper">
-          <div className="container max-w-5xl py-16 md:py-20">
-            <h2 className="font-display text-2xl md:text-3xl text-ink mb-10 font-medium">
-              Read next
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <section className="border-t border-line">
+          <div className="container max-w-5xl py-14 md:py-16">
+            <h2 className="display text-2xl md:text-3xl mb-8">Read next</h2>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               {related.map((r) => (
                 <Link
                   key={r.slug}
                   to={`/guides/${r.slug}`}
-                  className="group block p-6 bg-background border border-border hover:border-ink transition-colors"
+                  className="card group block p-5 no-underline transition-shadow hover:shadow-[0_12px_28px_-18px_rgba(8,57,95,.6)]"
                 >
-                  <div className="text-xs uppercase tracking-widest text-accent font-mono mb-3">
-                    {r.category}
-                  </div>
-                  <h3 className="font-display text-lg text-ink leading-snug mb-2 group-hover:underline font-medium">
+                  <div className="eyebrow mb-2 text-sea">{r.category}</div>
+                  <h3 className="font-display text-lg font-bold leading-snug text-ink mb-2 group-hover:text-sea">
                     {r.title}
                   </h3>
-                  <p className="text-sm text-ink-mute leading-relaxed">
-                    {r.description}
-                  </p>
+                  <p className="text-sm leading-relaxed text-ink-mute">{r.description}</p>
                 </Link>
               ))}
             </div>

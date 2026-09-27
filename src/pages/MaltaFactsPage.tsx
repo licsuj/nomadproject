@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import useSeo from '@/lib/useSeo';
+import useSeo, { SITE_ORIGIN } from '@/lib/useSeo';
+import { breadcrumbs, withOrg } from '@/lib/schema';
 
 interface Fact {
   symbol: string;
@@ -77,19 +78,30 @@ export default function MaltaFactsPage() {
     description:
       'Twelve verified facts about Malta — sunshine, holidays, LGBTQ+ rights, language, currency, and more. The quick orientation for anyone considering Malta as a base.',
     canonicalPath: '/malta',
-    jsonLd: {
-      '@context': 'https://schema.org',
-      '@type': 'AboutPage',
-      name: 'Malta in 12 facts',
-      url: 'https://nomadmalta.com/malta',
-      description:
-        'Twelve verified facts about Malta for anyone considering it as a 1–4 year base.',
-      isPartOf: {
-        '@type': 'WebSite',
-        name: 'NomadMalta',
-        url: 'https://nomadmalta.com',
+    jsonLd: withOrg(
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: 'Malta in 12 facts',
+        url: `${SITE_ORIGIN}/malta`,
+        description:
+          'Twelve verified facts about Malta for anyone considering it as a 1–4 year base.',
+        isPartOf: { '@id': `${SITE_ORIGIN}/#website` },
+        about: { '@type': 'Country', name: 'Malta' },
+        mainEntity: {
+          '@type': 'ItemList',
+          itemListElement: facts.map((f, i) => ({
+            '@type': 'ListItem',
+            position: i + 1,
+            name: `${f.headline}. ${f.context}`,
+          })),
+        },
       },
-    },
+      breadcrumbs([
+        ['Home', '/'],
+        ['Malta in 12 facts', '/malta'],
+      ])
+    ),
   });
 
   useEffect(() => {
@@ -98,86 +110,48 @@ export default function MaltaFactsPage() {
 
   return (
     <>
-      {/* ============== HERO ============== */}
-      <section className="border-b border-border">
-        <div className="container max-w-5xl py-20 md:py-28">
-          <div className="text-xs uppercase tracking-widest text-accent font-mono mb-8">
-            About Malta · Quick orientation
-          </div>
-          <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-medium text-ink leading-[1.1] tracking-tight max-w-3xl mb-6">
-            Malta, in twelve facts.
-          </h1>
-          <p className="text-lg md:text-xl text-ink-soft leading-relaxed max-w-2xl">
-            The minimum context anyone considering Malta as a 1&ndash;4 year base should
-            know. Verified, current, deliberately short.
-          </p>
-        </div>
+      <header className="container max-w-5xl pt-12 pb-8 md:pt-20">
+        <div className="eyebrow live-dot mb-4">About Malta · Quick orientation</div>
+        <h1 className="display text-[38px] md:text-6xl leading-[1.02] max-w-3xl mb-5">
+          Malta, in <em>twelve facts.</em>
+        </h1>
+        <p className="text-lg md:text-xl text-ink-soft leading-relaxed max-w-2xl">
+          The minimum context anyone considering Malta as a 1&ndash;4 year base should
+          know. Verified, current, deliberately short.
+        </p>
+      </header>
+
+      <section className="container max-w-6xl pb-16 md:pb-24">
+        <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {facts.map((fact) => (
+            <li key={fact.headline} className="card flex flex-col gap-2 p-6">
+              <span className="text-3xl leading-none" aria-hidden="true">{fact.symbol}</span>
+              <h2 className="font-display text-xl md:text-[22px] font-extrabold leading-tight tracking-tight text-ink">
+                {fact.headline}
+              </h2>
+              <p className="text-[15px] text-ink-mute leading-relaxed">{fact.context}</p>
+            </li>
+          ))}
+        </ul>
       </section>
 
-      {/* ============== FACTS GRID ============== */}
-      <section>
-        <div className="container max-w-6xl py-20 md:py-28">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-border border border-border">
-            {facts.map((fact, index) => (
-              <FactCard key={index} fact={fact} index={index} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ============== POSTSCRIPT ============== */}
-      <section className="border-t border-border bg-paper">
-        <div className="container max-w-3xl py-20 md:py-24 text-center">
-          <div className="text-xs uppercase tracking-widest text-accent font-mono mb-6">
-            Next
-          </div>
-          <h2 className="font-display text-3xl md:text-4xl text-ink font-medium tracking-tight mb-6">
+      <section className="panel-dark">
+        <div className="container max-w-3xl relative py-16 md:py-20">
+          <div className="eyebrow-dark mb-4">Next</div>
+          <h2 className="font-display text-3xl md:text-4xl font-extrabold tracking-tight text-white mb-4">
             The facts above are the easy part.
           </h2>
-          <p className="text-lg text-ink-soft leading-relaxed mb-10 max-w-2xl mx-auto">
+          <p className="text-lg text-on-dark-mute leading-relaxed mb-8 max-w-2xl">
             The harder parts are the visa, the cost, the tax rules, and whether
             it actually fits your situation. That&rsquo;s what the rest of the site
             is for.
           </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link
-              to="/guides/2026-malta-nrp-guide"
-              className="px-6 py-3 bg-ink text-background hover:bg-ink-soft transition-colors text-sm font-medium"
-            >
-              The 2026 NRP guide
-            </Link>
-            <Link
-              to="/guides"
-              className="px-6 py-3 border border-ink text-ink hover:bg-background transition-colors text-sm font-medium"
-            >
-              All guides
-            </Link>
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <Link to="/guides/2026-malta-nrp-guide" className="btn-y">The 2026 NRP guide</Link>
+            <Link to="/guides" className="btn border-[1.5px] border-on-dark text-on-dark hover:bg-white/10">All guides</Link>
           </div>
         </div>
       </section>
     </>
-  );
-}
-
-/* ============== FACT CARD ============== */
-function FactCard({ fact, index }: { fact: Fact; index: number }) {
-  const number = String(index + 1).padStart(2, '0');
-  return (
-    <div className="bg-background p-8 md:p-10 flex flex-col">
-      <div className="flex items-start justify-between mb-6">
-        <div className="text-5xl md:text-6xl leading-none" aria-hidden="true">
-          {fact.symbol}
-        </div>
-        <div className="font-mono text-xs text-ink-mute tracking-widest pt-2">
-          № {number}
-        </div>
-      </div>
-      <div className="font-display text-xl md:text-2xl text-ink font-medium leading-tight mb-3">
-        {fact.headline}
-      </div>
-      <div className="text-sm text-ink-soft leading-relaxed">
-        {fact.context}
-      </div>
-    </div>
   );
 }

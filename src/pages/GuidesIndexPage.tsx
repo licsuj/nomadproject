@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getAllArticles, formatDate } from '@/lib/articles';
-import useSeo from '@/lib/useSeo';
+import useSeo, { SITE_ORIGIN } from '@/lib/useSeo';
+import { breadcrumbs, withOrg } from '@/lib/schema';
 
 export default function GuidesIndexPage() {
   const articles = getAllArticles();
@@ -15,73 +16,71 @@ export default function GuidesIndexPage() {
     description:
       'All guides on the Malta Nomad Residence Permit: cost, process, eligibility, renewal, and the edge cases nobody else publishes.',
     canonicalPath: '/guides',
-    jsonLd: {
-      '@context': 'https://schema.org',
-      '@type': 'CollectionPage',
-      name: 'NomadMalta guides',
-      url: 'https://nomadmalta.com/guides',
-      description:
-        'All guides on the Malta Nomad Residence Permit.',
-      isPartOf: {
-        '@type': 'WebSite',
-        name: 'NomadMalta',
-        url: 'https://nomadmalta.com',
+    jsonLd: withOrg(
+      {
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        name: 'NomadMalta guides',
+        url: `${SITE_ORIGIN}/guides`,
+        description: 'All guides on the Malta Nomad Residence Permit.',
+        isPartOf: { '@id': `${SITE_ORIGIN}/#website` },
+        mainEntity: {
+          '@type': 'ItemList',
+          itemListElement: articles.map((a, i) => ({
+            '@type': 'ListItem',
+            position: i + 1,
+            url: `${SITE_ORIGIN}/guides/${a.slug}`,
+            name: a.title,
+          })),
+        },
       },
-    },
+      breadcrumbs([
+        ['Home', '/'],
+        ['Guides', '/guides'],
+      ])
+    ),
   });
 
   return (
     <>
-      {/* Header */}
-      <header className="border-b border-border bg-paper">
-        <div className="container max-w-3xl py-16 md:py-24">
-          <div className="text-xs uppercase tracking-widest text-accent font-mono mb-6">
-            Guides
-          </div>
-          <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-medium text-ink leading-[1.1] tracking-tight mb-6">
-            Everything we've published on the Malta NRP
-          </h1>
-          <p className="text-xl text-ink-soft font-display italic leading-snug">
-            Working guides on cost, process, eligibility, and the edge cases
-            nobody else publishes.
-          </p>
-        </div>
+      <header className="container max-w-3xl pt-12 pb-8 md:pt-20">
+        <div className="eyebrow live-dot mb-4">Guides · {articles.length} published</div>
+        <h1 className="display text-[36px] md:text-6xl leading-[1.02] mb-5">
+          Everything we've published on the <em>Malta NRP</em>
+        </h1>
+        <p className="text-lg text-ink-soft leading-relaxed">
+          Working guides on cost, process, eligibility, and the edge cases
+          nobody else publishes.
+        </p>
       </header>
 
-      {/* Article list */}
-      <div className="container max-w-3xl py-12 md:py-16">
-        <div className="space-y-2">
+      <div className="container max-w-3xl pb-16 md:pb-24">
+        <ul className="grid gap-3">
           {articles.map((article) => (
-            <Link
-              key={article.slug}
-              to={`/guides/${article.slug}`}
-              className="group block py-8 border-b border-border last:border-b-0"
-            >
-              <div className="text-xs uppercase tracking-widest text-accent font-mono mb-3">
-                {article.category}
-              </div>
-              <h2 className="font-display text-2xl md:text-3xl text-ink leading-snug mb-3 group-hover:underline font-medium">
-                {article.title}
-              </h2>
-              {article.subtitle && (
-                <p className="text-lg text-ink-soft font-display italic mb-4">
-                  {article.subtitle}
-                </p>
-              )}
-              <p className="text-base text-ink-soft leading-relaxed mb-4">
-                {article.description}
-              </p>
-              <div className="flex flex-wrap items-center gap-x-5 gap-y-1 text-sm text-ink-mute">
-                <span>Updated {formatDate(article.updated)}</span>
-                <span>·</span>
-                <span>{article.readingTime}</span>
-              </div>
-            </Link>
+            <li key={article.slug}>
+              <Link
+                to={`/guides/${article.slug}`}
+                className="card group block p-5 md:p-6 no-underline transition-shadow hover:shadow-[0_12px_28px_-18px_rgba(8,57,95,.6)]"
+              >
+                <div className="eyebrow mb-2 text-sea">{article.category}</div>
+                <h2 className="font-display text-2xl md:text-[28px] font-extrabold leading-tight tracking-tight text-ink mb-2 group-hover:text-sea">
+                  {article.title}
+                </h2>
+                {article.subtitle && <p className="text-base font-semibold text-ink-soft mb-2">{article.subtitle}</p>}
+                <p className="text-[15px] text-ink-mute leading-relaxed mb-4">{article.description}</p>
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-ink-mute">
+                  <span>
+                    Updated <time dateTime={article.updated}>{formatDate(article.updated)}</time>
+                  </span>
+                  <span>·</span>
+                  <span>{article.readingTime}</span>
+                </div>
+              </Link>
+            </li>
           ))}
-        </div>
+        </ul>
 
-        {/* Coming-soon footer */}
-        <div className="mt-16 p-6 border border-dashed border-border bg-paper">
+        <div className="mt-10 rounded-card border border-dashed border-line p-5">
           <p className="text-sm text-ink-mute leading-relaxed">
             <strong className="text-ink">More guides coming.</strong> The
             content calendar covers rejection patterns, agent selection,

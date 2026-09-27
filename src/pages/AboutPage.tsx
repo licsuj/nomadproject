@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import useSeo from '@/lib/useSeo';
+import useSeo, { SITE_ORIGIN } from '@/lib/useSeo';
+import { breadcrumbs, withOrg } from '@/lib/schema';
 
 export default function AboutPage() {
   useSeo({
@@ -8,19 +9,21 @@ export default function AboutPage() {
     description:
       'Why NomadMalta exists, who writes it, how it stays accurate, and how it makes money. Honest disclosure on affiliate relationships and editorial independence.',
     canonicalPath: '/about',
-    jsonLd: {
-      '@context': 'https://schema.org',
-      '@type': 'AboutPage',
-      name: 'About NomadMalta',
-      url: 'https://nomadmalta.com/about',
-      description:
-        'About NomadMalta — editorial mission, ownership, and disclosure.',
-      isPartOf: {
-        '@type': 'WebSite',
-        name: 'NomadMalta',
-        url: 'https://nomadmalta.com',
+    jsonLd: withOrg(
+      {
+        '@context': 'https://schema.org',
+        '@type': 'AboutPage',
+        name: 'About NomadMalta',
+        url: `${SITE_ORIGIN}/about`,
+        description: 'About NomadMalta — editorial mission, ownership, and disclosure.',
+        isPartOf: { '@id': `${SITE_ORIGIN}/#website` },
+        mainEntity: { '@id': `${SITE_ORIGIN}/#organization` },
       },
-    },
+      breadcrumbs([
+        ['Home', '/'],
+        ['About', '/about'],
+      ])
+    ),
   });
 
   useEffect(() => {
@@ -30,28 +33,23 @@ export default function AboutPage() {
   return (
     <>
       {/* ============== HERO ============== */}
-      <section className="border-b border-border">
-        <div className="container max-w-3xl py-20 md:py-28">
-          <div className="text-xs uppercase tracking-widest text-accent font-mono mb-8">
-            About this site
-          </div>
-          <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-medium text-ink leading-[1.1] tracking-tight mb-6">
-            What this site is for, and{' '}
-            <span className="italic text-ink-soft">how it stays honest.</span>
-          </h1>
-          <p className="text-lg md:text-xl text-ink-soft leading-relaxed">
-            NomadMalta exists because the existing guides are written either by
-            licensed agents who can&rsquo;t criticise their own industry, or by
-            offshore content farms that have never been to Malta. The gap is
-            real.
-          </p>
-        </div>
-      </section>
+      <header className="container max-w-3xl pt-12 pb-6 md:pt-20">
+        <div className="eyebrow live-dot mb-4">About this site</div>
+        <h1 className="display text-[36px] md:text-6xl leading-[1.02] mb-5">
+          What this site is for, and <em>how it stays honest.</em>
+        </h1>
+        <p className="text-lg md:text-xl text-ink-soft leading-relaxed">
+          NomadMalta exists because the existing guides are written either by
+          licensed agents who can&rsquo;t criticise their own industry, or by
+          offshore content farms that have never been to Malta. The gap is
+          real.
+        </p>
+      </header>
 
       {/* ============== BODY ============== */}
       <section>
-        <div className="container max-w-3xl py-16 md:py-20">
-          <article className="prose-nomadmalta">
+        <div className="container max-w-3xl pb-16 md:pb-20">
+          <article className="prose-nomadmalta card p-5 md:p-10">
             <h2>Who writes this</h2>
 
             <p>
@@ -223,27 +221,15 @@ export default function AboutPage() {
       </section>
 
       {/* ============== POSTSCRIPT CTA ============== */}
-      <section className="border-t border-border bg-paper">
-        <div className="container max-w-3xl py-16 text-center">
-          <div className="text-xs uppercase tracking-widest text-accent font-mono mb-4">
-            Start
-          </div>
-          <h2 className="font-display text-2xl md:text-3xl text-ink font-medium tracking-tight mb-6">
+      <section className="panel-dark">
+        <div className="container max-w-3xl relative py-14 md:py-16">
+          <div className="eyebrow-dark mb-4">Start</div>
+          <h2 className="font-display text-2xl md:text-3xl font-extrabold tracking-tight text-white mb-6">
             The flagship guide is the right starting point.
           </h2>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link
-              to="/guides/2026-malta-nrp-guide"
-              className="px-6 py-3 bg-ink text-background hover:bg-ink-soft transition-colors text-sm font-medium"
-            >
-              The 2026 NRP guide
-            </Link>
-            <Link
-              to="/guides"
-              className="px-6 py-3 border border-ink text-ink hover:bg-background transition-colors text-sm font-medium"
-            >
-              All guides
-            </Link>
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <Link to="/guides/2026-malta-nrp-guide" className="btn-y">The 2026 NRP guide</Link>
+            <Link to="/guides" className="btn border-[1.5px] border-on-dark text-on-dark hover:bg-white/10">All guides</Link>
           </div>
         </div>
       </section>
