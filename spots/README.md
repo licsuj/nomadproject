@@ -21,6 +21,16 @@ blue-grotto/zh/index.html  always Chinese. Share this link in Chinese channels (
 
 **Sticker links:** `spots/vercel.json` holds short redirects. `spots.nomadmalta.com/q/bg1` goes to the Blue Grotto page and tags the visit as sticker `bg1`. Add one line per sticker, so you can change where a sticker points without reprinting it. `/` also redirects to Blue Grotto while it is the only live spot.
 
+## Curator preview
+
+Add `?preview` to any page URL, for example `spots.nomadmalta.com/blue-grotto/?preview`. You'll then see:
+- a red bar with how many posts are verified
+- example monthly numbers
+- spots that aren't live yet
+- dashed outlines and "Link pending" on unverified posts
+
+Visitors never see any of this. Until at least one post is verified, visitors see the posts labelled as "Illustration", and the intro describes them as the kinds of posts people make here, not real posts.
+
 ## Captions
 
 There are 5 captions per language, each written from a different angle. Each one copies with its own hashtags:
@@ -37,7 +47,7 @@ Once a month, fill in `month` in `data.js` from the posts you reviewed:
 - the most common opening
 - the most common caption angle
 
-A public view count is allowed only if you read it yourself, with the date. In draft mode the card shows labelled example numbers. Once `draft: false`, it only appears when real counts are filled in.
+A public view count is allowed only if you read it yourself, with the date. In curator preview (see below) the card shows labelled example numbers. Visitors only see the card once real counts are filled in.
 
 ## Tourist moves to another spot
 
@@ -65,7 +75,8 @@ A public view count is allowed only if you read it yourself, with the date. In d
 4. Register your accounts and fill `handles`. Keep the `trackTag` tags. Search both weekly by hand.
 5. Set `coords` (from Google Maps: long-press the pin) to enable the 高德 link.
 6. Set `CONTACT` at the top of `assets/board.js`.
-7. Set `draft: false`. The red banner disappears.
+7. Set `draft: false` in `data.js`.
+8. Delete the `<meta name="robots" content="noindex">` line in both `blue-grotto/index.html` and `blue-grotto/zh/index.html`, so search engines can list the page.
 
 ## Email (optional, English page only)
 

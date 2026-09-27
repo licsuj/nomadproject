@@ -3,8 +3,11 @@
 (function(){
 const L = window.LOCATION;
 const SPOTS = window.SPOTS || [];
-const CONTACT = "hello@example.com";           // ← replace before launch
+const CONTACT = "hello@nomadmalta.com";
 const STALE_MIN = 90;
+// Curator preview: add ?preview or #preview to the URL to see the draft banner,
+// example monthly numbers and spots that aren't live yet. Visitors never see these.
+const PREVIEW = /[?&]preview\b/.test(location.search) || location.hash === "#preview";
 const NOMAD_URL = "https://nomadmalta.com/?utm_source=spots&utm_medium=qr";   // sister site                            // minutes in background before asking "Moved on?"
 
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -13,11 +16,11 @@ const fill = (s, o) => s.replace(/\{(\w+)\}/g, (_, k) => o[k] ?? "");
 const UI = {
   en: {
     htmlLang:"en", title:"Blue Grotto Shot Board", switchTo:"中文", switchAria:"切换到中文",
-    draft:"<b>Draft.</b> {n}/{t} posts verified. Don't print the QR yet.",
+    draft:"<b>Curator preview.</b> {n}/{t} posts verified. Visitors don't see this bar, example numbers or draft spots.",
     eyebrow:"Posted from here", h1:"What people post from <em>this exact spot</em>",
     sub:"Real posts from this viewpoint, what they share, and one you can shoot in 5 minutes.",
     make:"Make this post", free:"Free · no sign-up",
-    hook:"Hook", easy:"Easy to copy", car:"Needs a car", open:"Open post ↗", pending:"Link pending", illus:"Illustration · verified post goes here",
+    hook:"Hook", easy:"Easy to copy", car:"Needs a car", open:"Open post ↗", pending:"Link pending", illus:"Illustration · verified post goes here", illusPublic:"Illustration", subNone:"The kinds of posts people make from this viewpoint, what they share, and one you can shoot in 5 minutes.",
     workH:"What's working here", slots:"Slots {s}", check:"to check",
     monthLead:"{n} public posts checked · {p}", monthEx:"Example numbers until this month's count is in.",
     monthNote:"Counted by hand. Not reach or ranking data.",
@@ -39,11 +42,11 @@ const UI = {
   },
   zh: {
     htmlLang:"zh-CN", title:"马耳他蓝洞 · 拍同款", switchTo:"EN", switchAria:"Switch to English",
-    draft:"<b>草稿。</b>已核实 {n}/{t} 条帖子，暂勿打印二维码。",
+    draft:"<b>预览模式。</b>已核实 {n}/{t} 条帖子。访客看不到此提示、示例数字和草稿景点。",
     eyebrow:"在这里发出的帖子", h1:"这个机位，<br><em>大家都在拍什么</em>",
     sub:"这里的真实帖子、它们的共同点，和一条 5 分钟就能拍完的同款。",
     make:"拍同款", free:"免费 · 无需注册",
-    hook:"开头", easy:"容易拍", car:"需要开车", open:"查看原帖 ↗", pending:"链接待补充", illus:"示意图 · 待放入已核实的帖子",
+    hook:"开头", easy:"容易拍", car:"需要开车", open:"查看原帖 ↗", pending:"链接待补充", illus:"示意图 · 待放入已核实的帖子", illusPublic:"示意图", subNone:"这个机位常见的帖子类型、它们的共同点，和一条 5 分钟就能拍完的同款。",
     workH:"这里什么内容有效", slots:"见位置 {s}", check:"待核对",
     monthLead:"已查看 {n} 条公开帖子 · {p}", monthEx:"本月统计完成前，显示的是示例数字。",
     monthNote:"人工统计，不是流量或排名数据。",
@@ -130,11 +133,12 @@ function render(){
   mode = R.firstTab;
 
   const verified = L.posts.filter(p=>p.verified).length;
+  const niceDate = iso => { try { return new Date(iso+"T12:00:00Z").toLocaleDateString(lang==="zh"?"zh-CN":"en-GB",{day:"numeric",month:"long",year:"numeric",timeZone:"UTC"}); } catch(e){ return esc(iso); } };
   const handle = lang === "zh" ? L.handles.red : (L.handles.instagram || L.handles.tiktok);
   const tag = L.trackTag[lang];
   const handleLine = handle ? `\n${lang==="zh" ? "@"+handle.replace(/^@/,"") : "📍 via @"+handle.replace(/^@/,"")}` : "";
   const tagsFor = c => `${R.coreTags} ${c.tags} ${tag}`;
-  const others = SPOTS.filter(sp => sp.slug !== L.slug && (sp.live || L.draft));
+  const others = SPOTS.filter(sp => sp.slug !== L.slug && (sp.live || PREVIEW));
   const canLocate = others.length && "geolocation" in navigator && [L.slug, ...others.map(x=>x.slug)].every(sl => (SPOTS.find(x=>x.slug===sl)||{}).coords);
 
   const post = (p,i) => {
@@ -142,16 +146,16 @@ function render(){
     const media = p.thumb && p.verified ? `<img src="${esc(p.thumb)}" alt="${esc(p.creator)}" loading="lazy">` : scene(p.scene,i);
     const link = p.verified && p.url
       ? `<a class="open" data-track="open_post" data-slot="${i+1}" href="${esc(p.url)}" target="_blank" rel="noopener">${T.open}</a>`
-      : `<span class="open off">${T.pending}</span>`;
-    return `<article class="post${p.verified?"":" unverified"}">
+      : PREVIEW ? `<span class="open off">${T.pending}</span>` : "";
+    return `<article class="post${p.verified||!PREVIEW?"":" unverified"}">
       <div class="thumb">${media}
         <div class="top"><span class="badge ${p.platform}">${PLAT[p.platform]||p.platform}</span><span class="fmt">${esc(c.format)}</span></div>
-        ${p.verified?"":`<div class="slotmark">${T.illus}</div>`}
+        ${p.verified?"":`<div class="slotmark">${PREVIEW?T.illus:T.illusPublic}</div>`}
         <div class="hookline"><small>${T.hook}</small>${esc(c.hook)}</div>
       </div>
       <p class="why">${esc(c.why)}</p>
       <div class="postfoot"><span class="ease${p.ease==="easy"?"":" med"}">${p.ease==="easy"?T.easy:T.car}</span>${link}</div>
-      <div class="credit">${p.verified&&p.creator?esc(p.creator):`#${i+1}`}</div>
+      ${p.verified&&p.creator?`<div class="credit">${esc(p.creator)}</div>`:""}
     </article>`;
   };
 
@@ -159,7 +163,7 @@ function render(){
     let M = L.month; if (!M) return "";
     let example = false;
     if (!(M.checked && M.formats)) {
-      if (!L.draft) return "";
+      if (!PREVIEW) return "";
       example = true;   // draft preview only, clearly labelled
       M = Object.assign({}, M, { checked:12, formats:[["reel",7],["carousel",4],["photo",1]],
         opening:{en:"Water close-up",zh:"海水特写",count:6}, angle:{en:"“No boat needed”",zh:"“不用坐船”",count:3}, topViews:null });
@@ -200,7 +204,7 @@ function render(){
       <button class="btn btn-ink" type="submit">${T.sigBtn}</button></form>`);
 
   document.getElementById("app").innerHTML = `
-  ${L.draft?`<div class="draft" role="note"><div class="wrap">${fill(T.draft,{n:verified,t:L.posts.length})}</div></div>`:""}
+  ${L.draft && PREVIEW?`<div class="draft" role="note"><div class="wrap">${fill(T.draft,{n:verified,t:L.posts.length})}</div></div>`:""}
   <header class="wrap head">
     <div class="place">
       <svg class="pin" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Z" fill="#D2322B"/><circle cx="12" cy="10" r="2.6" fill="#fff"/></svg>
@@ -214,11 +218,11 @@ function render(){
 
   <main class="wrap">
     <div class="hero">
-      <span class="label live">${T.eyebrow} · ${esc(L.curatedOn)}</span>
+      <span class="label live">${T.eyebrow} · <time datetime="${esc(L.curatedOn)}">${niceDate(L.curatedOn)}</time></span>
       <h1>${T.h1}</h1>
-      <p>${T.sub}</p>
+      <p>${verified ? T.sub : T.subNone}</p>
     </div>
-    <div class="rail" aria-label="${T.eyebrow}">${L.posts.map(post).join("")}</div>
+    <div class="rail" role="region" tabindex="0" aria-label="${T.eyebrow}">${L.posts.map(post).join("")}</div>
     <a class="btn btn-y cta" href="#make">${T.make} ↓</a>
     <p class="free">${T.free}</p>
 
@@ -246,7 +250,7 @@ function render(){
       ${T.net?`<p class="netnote">${T.net}</p>`:""}
 
       <div class="caps-h"><h2>${T.capH}</h2><p>${T.capSub}</p></div>
-      <div class="caprail">${R.captions.map((c,i)=>`<article class="capcard">
+      <div class="caprail" role="region" tabindex="0" aria-label="${T.capH}">${R.captions.map((c,i)=>`<article class="capcard">
           <div class="cap-top"><span class="angle">${esc(c.angle)}</span><span class="label">${i+1}/${R.captions.length}</span></div>
           <div class="text" id="cap-${i}">${esc(c.text + handleLine)}</div>
           <div class="text tags" id="tag-${i}">${esc(tagsFor(c))}</div>
@@ -312,7 +316,7 @@ function render(){
     btn.textContent = T.finding;
     navigator.geolocation.getCurrentPosition(pos=>{
       const here=[pos.coords.latitude,pos.coords.longitude]; let best=null;
-      SPOTS.filter(sp=>sp.coords&&(sp.live||L.draft)).forEach(sp=>{const d=km(here,sp.coords); if(!best||d<best.d) best={sp,d};});
+      SPOTS.filter(sp=>sp.coords&&(sp.live||PREVIEW)).forEach(sp=>{const d=km(here,sp.coords); if(!best||d<best.d) best={sp,d};});
       btn.textContent = label;
       if (best && best.d < 1.5){ track("find_spot",{found:best.sp.slug}); if (best.sp.slug===L.slug) sheet.hidden=true; else location.href = best.sp.url+(lang==="zh"?"zh/":""); }
       else { msg.textContent = T.notNear; track("find_spot",{found:"none"}); }
@@ -335,7 +339,7 @@ function render(){
 document.addEventListener("visibilitychange", () => {
   if (document.visibilityState !== "visible") return;
   const sheet = document.getElementById("moved");
-  const others = SPOTS.some(sp => sp.slug !== L.slug && (sp.live || L.draft));
+  const others = SPOTS.some(sp => sp.slug !== L.slug && (sp.live || PREVIEW));
   if (sheet && others && (Date.now() - openedAt) / 60000 > STALE_MIN) { sheet.hidden = false; track("moved_prompt"); }
 });
 
