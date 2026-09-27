@@ -1,0 +1,6 @@
+{
+  "redirects": [
+    { "source": "/", "destination": "/blue-grotto/", "permanent": false },
+    { "source": "/q/bg1", "destination": "/blue-grotto/?q=bg1", "permanent": false }
+  ]
+}
