@@ -1,29 +1,25 @@
 #!/usr/bin/env python3
 """
-Telegram alerts for spots.nomadmalta.com, read from Umami Cloud. Runs on the Raspberry Pi.
-Python 3 standard library only — nothing to install.
+Telegram reports for spots.nomadmalta.com, read from the Pi's own events.db
+(filled by collector.py). Python 3 standard library only.
 
-Modes:
-  python3 watch.py chatid    print the chat ID(s) of anyone who has messaged your bot
+  python3 watch.py chatid    print the chat ID of anyone who messaged your bot
   python3 watch.py test      send a test message
-  python3 watch.py scans     QR-scan alert: new sticker visits since the last check (run every 2 min)
-  python3 watch.py summary   last 30 minutes, only sends if there were visitors (run every 30 min)
-  python3 watch.py daily     last 24 hours, always sends (run once a day)
-
-Settings come from a .env file next to this script (see .env.example).
-No visitor IPs or personal data are read or sent — only counts, pages, countries and sticker IDs.
+  python3 watch.py summary   last 30 minutes, sends only if there were visits (cron: every 30 min)
+  python3 watch.py daily     last 24 hours, always sends (cron: 21:00)
 """
-import json, os, sys, time, urllib.parse, urllib.request, urllib.error
+import json, os, sqlite3, sys, time, urllib.parse, urllib.request
+from collections import Counter
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-STATE = HERE / ".last_scan_check"
+DB = HERE / "events.db"
 
 
 def load_env():
-    env_file = HERE / ".env"
-    if env_file.exists():
-        for line in env_file.read_text().splitlines():
+    f = HERE / ".env"
+    if f.exists():
+        for line in f.read_text().splitlines():
             line = line.strip()
             if line and not line.startswith("#") and "=" in line:
                 k, v = line.split("=", 1)
@@ -37,112 +33,63 @@ def need(name):
     return v
 
 
-def http_json(url, headers=None, data=None):
-    req = urllib.request.Request(url, headers=headers or {}, data=data)
-    with urllib.request.urlopen(req, timeout=20) as r:
-        return json.loads(r.read().decode())
-
-
-# ---------------- Telegram ----------------
 def tg(method, **params):
-    token = need("TELEGRAM_BOT_TOKEN")
     data = urllib.parse.urlencode(params).encode() if params else None
-    return http_json(f"https://api.telegram.org/bot{token}/{method}", data=data)
+    with urllib.request.urlopen(f"https://api.telegram.org/bot{need('TELEGRAM_BOT_TOKEN')}/{method}", data=data, timeout=20) as r:
+        return json.loads(r.read().decode())
 
 
 def send(text):
     tg("sendMessage", chat_id=need("TELEGRAM_CHAT_ID"), text=text, disable_web_page_preview="true")
 
 
-# ---------------- Umami ----------------
-def umami(path, **params):
-    base = os.environ.get("UMAMI_API_BASE", "https://api.umami.is/v1").rstrip("/")
-    site = need("UMAMI_WEBSITE_ID")
-    qs = urllib.parse.urlencode(params)
-    url = f"{base}/websites/{site}/{path}" + (f"?{qs}" if qs else "")
-    try:
-        return http_json(url, headers={"Authorization": f"Bearer {need('UMAMI_API_KEY')}", "Accept": "application/json"})
-    except urllib.error.HTTPError as e:
-        if e.code in (401, 403):
-            sys.exit(f"Umami refused the API key ({e.code}). Check UMAMI_API_KEY, and that API access is included in your Umami plan.")
-        raise
+def fmt(counter, n=4):
+    return ", ".join(f"{k} ×{v}" for k, v in counter.most_common(n)) or "—"
 
 
-def window(minutes):
-    end = int(time.time() * 1000)
-    return end - minutes * 60 * 1000, end
+def rows_since(seconds):
+    if not DB.exists():
+        return []
+    con = sqlite3.connect(DB, timeout=10)
+    rows = con.execute("SELECT event, loc, lang, sticker, country, extra FROM events WHERE ts > ?",
+                       (int(time.time()) - seconds,)).fetchall()
+    con.close()
+    return rows
 
 
-def top(kind, start, end, limit=3):
-    rows = umami("metrics", type=kind, startAt=start, endAt=end, limit=limit) or []
-    return [(r.get("x") or "(none)", r.get("y", 0)) for r in rows]
-
-
-def stickers_from_queries(rows):
-    """Umami 'query' rows look like ('q=bg1', 3). Return {'bg1': 3}."""
-    out = {}
-    for q, n in rows:
-        vals = urllib.parse.parse_qs(q.lstrip("?")).get("q")
-        if vals:
-            out[vals[0]] = out.get(vals[0], 0) + n
-    return out
-
-
-def fmt(rows):
-    return ", ".join(f"{x} ×{y}" for x, y in rows) if rows else "—"
-
-
-def report(minutes, label, always):
-    start, end = window(minutes)
-    s = umami("stats", startAt=start, endAt=end)
-    visitors = s.get("visitors", 0)
-    if not visitors and not always:
-        return  # stay quiet when nobody came
+def report(seconds, label, always):
+    rows = rows_since(seconds)
+    views = [r for r in rows if r[0] == "board_view"]
+    if not views and not always:
+        return  # quiet when nobody came
+    stickers = Counter(r[3] for r in views if r[3])
+    langs = Counter({"en": "English", "zh": "Chinese"}.get(r[2], "?") for r in views)
+    countries = Counter(r[4] for r in views if r[4])
+    actions = Counter(r[0] for r in rows if r[0] != "board_view")
+    captions = Counter()
+    for r in rows:
+        if r[0] == "copy_caption" and r[5]:
+            x = json.loads(r[5]); captions[f"#{x.get('caption','?')} {x.get('angle','')}".strip()] += 1
+    copies = sum(v for k, v in actions.items() if k.startswith("copy_"))
+    rate = f"{round(100 * copies / len(views))}%" if views else "—"
     site = os.environ.get("SITE_NAME", "spots.nomadmalta.com")
-    stickers = stickers_from_queries(top("query", start, end, 20))
     lines = [
         f"📍 {site} · {label}",
-        f"Visitors {visitors} · page views {s.get('pageviews', 0)}",
-        f"QR stickers: {fmt(sorted(stickers.items(), key=lambda kv: -kv[1]))}",
-        f"Top pages: {fmt(top('path', start, end))}",
-        f"Countries: {fmt(top('country', start, end))}",
-        f"Actions: {fmt(top('event', start, end, 6))}",
+        f"Page views {len(views)} · from QR stickers {sum(stickers.values())}",
+        f"Stickers: {fmt(stickers)}",
+        f"Language: {fmt(langs)} · Countries: {fmt(countries)}",
+        f"Copy taps {copies} (≈{rate} of views) · Captions: {fmt(captions, 3)}",
+        f"Other actions: {fmt(Counter({k: v for k, v in actions.items() if not k.startswith('copy_')}), 5)}",
     ]
-    try:
-        live = umami("active").get("visitors", 0)
-        if live:
-            lines.append(f"On the page right now: {live}")
-    except Exception:
-        pass
     send("\n".join(lines))
-
-
-def scans():
-    now = int(time.time() * 1000)
-    try:
-        start = int(STATE.read_text())
-    except Exception:
-        start = now - 2 * 60 * 1000
-    stickers = stickers_from_queries(top("query", start, now, 20))
-    STATE.write_text(str(now))
-    if stickers:
-        site = os.environ.get("SITE_NAME", "spots.nomadmalta.com")
-        send(f"🔔 QR scan on {site}: " + ", ".join(f"{k} ×{v}" for k, v in stickers.items()))
 
 
 def chatid():
     res = tg("getUpdates").get("result", [])
     if not res:
-        print("No messages yet. Open your bot in Telegram, press Start (or send 'hi'), then run this again.")
-        return
-    seen = {}
-    for u in res:
-        msg = u.get("message") or u.get("channel_post") or {}
-        chat = msg.get("chat") or {}
-        if chat:
-            seen[chat["id"]] = chat.get("username") or chat.get("title") or chat.get("first_name")
-    for cid, name in seen.items():
-        print(f"TELEGRAM_CHAT_ID={cid}    ({name})")
+        print("No messages yet. Open your bot in Telegram, press Start, then run this again.")
+    for cid in {(u.get("message") or {}).get("chat", {}).get("id") for u in res} - {None}:
+        print(f"TELEGRAM_CHAT_ID={cid}")
 
 
 if __name__ == "__main__":
@@ -151,13 +98,10 @@ if __name__ == "__main__":
     if mode == "chatid":
         chatid()
     elif mode == "test":
-        send("✅ NomadMalta alerts are connected.")
-        print("Sent.")
-    elif mode == "scans":
-        scans()
+        send("✅ NomadMalta alerts are connected."); print("Sent.")
     elif mode == "summary":
-        report(30, "last 30 min", always=False)
+        report(30 * 60, "last 30 min", always=False)
     elif mode == "daily":
-        report(24 * 60, "last 24 hours", always=True)
+        report(24 * 3600, "last 24 hours", always=True)
     else:
         sys.exit(__doc__)

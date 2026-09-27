@@ -1,0 +1,16 @@
+# systemd unit: keeps collector.py running and restarts it after a crash or reboot.
+# Install: see README.md step 6. Replace USER with your Pi username if it isn't "pi".
+[Unit]
+Description=NomadMalta visit collector
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=USER
+WorkingDirectory=/home/USER/nomadproject/tools/telegram-watch
+ExecStart=/usr/bin/python3 /home/USER/nomadproject/tools/telegram-watch/collector.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

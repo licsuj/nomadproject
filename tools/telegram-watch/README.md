@@ -1,37 +1,33 @@
 # Telegram alerts (Raspberry Pi)
 
-Sends visitor alerts for spots.nomadmalta.com to your Telegram. Reads counts from Umami; never sees visitor IPs.
+The spot pages send small anonymous notes (which page, which sticker, the language, and the action) to your Pi through Cloudflare Tunnel at `ping.nomadmalta.com`. Cloudflare adds the visitor's country. **No IP address, cookie or device ID is stored.** The Pi keeps counts in `events.db` for 180 days and sends Telegram messages.
 
-| Alert | When | Command |
+| Message | When | Sent by |
 |---|---|---|
-| QR scan | a visitor arrives through a sticker link (`?q=bg1`) | `watch.py scans` every 2 min |
-| 30-minute summary | only if there were visitors | `watch.py summary` every 30 min |
-| Daily summary | every evening, even if zero | `watch.py daily` at 21:00 |
+| 🔔 QR scan | Within seconds of someone arriving through a sticker link (once per visit, not on reload) | `collector.py` (always running) |
+| 30-minute summary | Every 30 min, **only if** there were page views | `watch.py summary` (cron) |
+| Daily summary | 21:00 every day, even if zero | `watch.py daily` (cron) |
 
-## Setup on the Pi
+If the Pi is off, notes are lost; Umami still records every visit. Visits with `?preview` in the address are never sent.
 
-```bash
-mkdir -p ~/nomad-alerts && cd ~/nomad-alerts
-# copy watch.py and .env.example from this folder into ~/nomad-alerts, then:
-cp .env.example .env && chmod 600 .env
-nano .env          # paste TELEGRAM_BOT_TOKEN and UMAMI_API_KEY
-python3 watch.py chatid    # prints your TELEGRAM_CHAT_ID (message your bot first) → paste it into .env
-python3 watch.py test      # you should get "✅ NomadMalta alerts are connected."
-python3 watch.py daily     # first real report (shows zeros if nobody visited today)
+## Files
+
+- `collector.py`: receives notes, stores counts, sends the instant QR alert
+- `watch.py`: 30-minute and daily summaries; also `test` and `chatid`
+- `nomad-collector.service`: keeps the collector running (systemd)
+- `config.yml.example`: Cloudflare Tunnel settings
+- `.env.example`: copy to `.env` and add your bot token and chat ID (never commit `.env`)
+
+## Useful commands
+
+- Collector status: `systemctl status nomad-collector`
+- Tunnel status: `systemctl status cloudflared`
+- Health check (from any browser): `https://ping.nomadmalta.com/health` should say `ok`
+- Update the code: `cd ~/nomadproject && git pull && sudo systemctl restart nomad-collector`
+- Turn off sending from the pages: set `PING_URL = ""` in `spots/assets/board.js`
+
+Cron lines:
 ```
-
-Then `crontab -e` and add:
-
+*/30 * * * * cd $HOME/nomadproject/tools/telegram-watch && /usr/bin/python3 watch.py summary >> alerts.log 2>&1
+0 21 * * *   cd $HOME/nomadproject/tools/telegram-watch && /usr/bin/python3 watch.py daily   >> alerts.log 2>&1
 ```
-*/2 * * * *  cd $HOME/nomad-alerts && /usr/bin/python3 watch.py scans   >> alerts.log 2>&1
-*/30 * * * * cd $HOME/nomad-alerts && /usr/bin/python3 watch.py summary >> alerts.log 2>&1
-0 21 * * *   cd $HOME/nomad-alerts && /usr/bin/python3 watch.py daily   >> alerts.log 2>&1
-```
-
-Check the Pi's time zone is Malta (`timedatectl`; fix with `sudo timedatectl set-timezone Europe/Malta`) so the daily report arrives at 21:00 local.
-
-## If something fails
-
-- **"Umami refused the API key"**: the key is wrong, or API access isn't included in your Umami plan.
-- **No QR scan alerts, but visits show in Umami**: open Umami → the site → Query parameters. Scans should appear as `q=bg1`. If they don't, tell Claude.
-- **Too noisy?** Delete the `scans` line from crontab. You'll still get the 30-minute and daily summaries.

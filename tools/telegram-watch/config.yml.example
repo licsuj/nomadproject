@@ -1,0 +1,7 @@
+# Cloudflare Tunnel config. Copy to ~/.cloudflared/config.yml and fill in the tunnel ID (README step 5).
+tunnel: PASTE-TUNNEL-ID
+credentials-file: /home/USER/.cloudflared/PASTE-TUNNEL-ID.json
+ingress:
+  - hostname: ping.nomadmalta.com
+    service: http://localhost:8787
+  - service: http_status:404

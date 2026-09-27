@@ -8,6 +8,8 @@ const STALE_MIN = 90;
 // Curator preview: add ?preview or #preview to the URL to see the draft banner,
 // example monthly numbers and spots that aren't live yet. Visitors never see these.
 const PREVIEW = /[?&]preview\b/.test(location.search) || location.hash === "#preview";
+// Visit notes for the Raspberry Pi collector (Telegram alerts). Empty string = off.
+const PING_URL = "https://ping.nomadmalta.com/e";
 const NOMAD_URL = "https://nomadmalta.com/?utm_source=spots&utm_medium=qr";   // sister site                            // minutes in background before asking "Moved on?"
 
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -78,6 +80,17 @@ function track(name, extra){
   const props = Object.assign({ lang, loc: L.slug, sticker: sticker || "none" }, extra || {});
   try { if (window.umami && typeof window.umami.track === "function") window.umami.track(name, props); } catch(e){}
   try { if (typeof window.plausible === "function") window.plausible(name, { props }); } catch(e){}
+  if (PING_URL && !PREVIEW) {
+    const note = Object.assign({ e: name }, props);
+    if (name === "board_view" && sticker) {
+      // flag the first view of a sticker visit, so a reload doesn't send a second Telegram alert
+      try { const k = "scan-" + sticker; if (!sessionStorage.getItem(k)) { note.first = true; sessionStorage.setItem(k, "1"); } } catch(e) { note.first = true; }
+    }
+    try {
+      const body = JSON.stringify(note);
+      if (!(navigator.sendBeacon && navigator.sendBeacon(PING_URL, body))) fetch(PING_URL, { method: "POST", body, keepalive: true, mode: "no-cors" }).catch(()=>{});
+    } catch(e){}
+  }
 }
 
 /* ---------- language + fonts ---------- */
