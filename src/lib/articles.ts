@@ -101,9 +101,19 @@ export function getRelatedArticles(slug: string, limit = 3): Article[] {
 
 export function formatDate(iso: string): string {
   const d = new Date(iso);
+  // UTC so the prerendered date and the browser date always match
   return d.toLocaleDateString('en-GB', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
+    timeZone: 'UTC',
   });
+}
+
+/** The article's H2 headings, in order (used for the "On this page" list). */
+export function getHeadings(body: string): string[] {
+  return body
+    .split(/\r?\n/)
+    .filter((l) => /^##\s+/.test(l))
+    .map((l) => l.replace(/^##\s+/, '').replace(/[*_`]/g, '').trim());
 }
