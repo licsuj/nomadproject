@@ -4,7 +4,8 @@
 const L = window.LOCATION;
 const SPOTS = window.SPOTS || [];
 const CONTACT = "hello@example.com";           // ← replace before launch
-const STALE_MIN = 90;                            // minutes in background before asking "Moved on?"
+const STALE_MIN = 90;
+const NOMAD_URL = "https://nomadmalta.com/?utm_source=spots&utm_medium=qr";   // sister site                            // minutes in background before asking "Moved on?"
 
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const fill = (s, o) => s.replace(/\{(\w+)\}/g, (_, k) => o[k] ?? "");
@@ -27,6 +28,7 @@ const UI = {
     capH:"Pick a caption", capSub:"Swipe for 5 styles. Copies with hashtags.", copy:"Copy", tagsOnly:"Tags only", copied:"Copied ✓", selected:"Selected, tap Copy",
     locTag:"Location tag", net:"",
     boatH:"See the caves from inside", boatP:"Boats leave from Wied iż-Żurrieq harbour, a short drive down the road.", boatGo:"Book a boat trip ↗", aff:"Affiliate link, same price for you.",
+    nomadH:"Staying longer than a holiday?", nomadP:"NomadMalta: independent guides to living in Malta on the nomad permit.", nomadGo:"Visit NomadMalta ↗",
     featH:"Get featured here", featP:"Add {tag}{handle} when you post. We show the best ones, with credit.",
     pick:"Local pick · Sponsored",
     otherH:"Other spots", find:"Find my spot", finding:"Checking…", notNear:"No board spot near you right now.", locOff:"Location unavailable. Pick from the list.", soon:"draft",
@@ -53,6 +55,7 @@ const UI = {
     locTag:"定位",
     net:"用国内手机卡漫游时，Instagram 和 TikTok 通常打不开，小红书、抖音、微信可以正常用，所以默认给你小红书图文版。",
     boatH:"想进洞看？", boatP:"山下 Wied iż-Żurrieq 小港口有游船，开车几分钟。", boatGo:"预订游船 ↗", aff:"推广链接，价格不变。",
+    nomadH:"想在马耳他住得更久？", nomadP:"NomadMalta：马耳他数字游民居留许可的独立指南（英文）。", nomadGo:"访问 NomadMalta ↗",
     featH:"有机会展示在这里", featP:"发布时带上 {tag}{handle}，我们会展示优秀作品并注明作者。",
     pick:"本地推荐 · 赞助",
     otherH:"其他景点", find:"定位我的景点", finding:"定位中…", notNear:"附近暂时没有我们的景点页面。", locOff:"无法定位，请从列表选择。", soon:"草稿",
@@ -188,6 +191,7 @@ function render(){
   if (L.localPick) more.push(`<div class="row pick"><span class="label">${T.pick}</span><h3>${esc(L.localPick.name)}</h3><p>${esc(L.localPick[lang])}</p>${L.localPick.url?`<a class="go" data-track="local_pick" href="${esc(L.localPick.url)}" target="_blank" rel="noopener sponsored">${esc(L.localPick.name)} ↗</a>`:""}</div>`);
   more.push(`<div class="row"><h3>${T.boatH}</h3><p>${T.boatP}</p>${L.boat.url?`<a class="go" data-track="boat" href="${esc(L.boat.url)}" target="_blank" rel="noopener sponsored">${T.boatGo}</a><small>${T.aff}</small>`:""}</div>`);
   more.push(`<div class="row"><h3>${T.featH}</h3><p>${fill(T.featP,{tag:`<b>${esc(tag)}</b>`, handle: handle?` ${lang==="zh"?"并 @":"+ "}<b>${esc(handle)}</b>`:""})}</p></div>`);
+  more.push(`<div class="row"><h3>${T.nomadH}</h3><p>${T.nomadP}</p><a class="go" data-track="nomadmalta" href="${NOMAD_URL}" target="_blank" rel="noopener">${T.nomadGo}</a></div>`);
   if (others.length) more.push(`<div class="row"><h3>${T.otherH}</h3>${spotList()}</div>`);
   if (lang === "en" && L.signup && L.signup.action) more.push(`<form class="row" id="signup" action="${esc(L.signup.action)}" method="post" target="_blank">
       <h3>${T.sigH}</h3><p>${T.sigP}</p>

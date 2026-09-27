@@ -17,6 +17,7 @@ export function textOf(node: ReactNode): string {
 export function slugify(text: string): string {
   return text
     .toLowerCase()
+    .replace(/['\u2019]/g, '')
     .normalize('NFKD')
     .replace(/[̀-ͯ]/g, '')
     .replace(/[^a-z0-9]+/g, '-')

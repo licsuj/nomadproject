@@ -30,12 +30,12 @@ export default function SiteHeader() {
               {n.label}
             </NavLink>
           ))}
-          <Link to="/guides" className="sm:hidden rounded-full px-3 py-2 text-ink-soft no-underline">
+          <Link to="/guides" className="sm:hidden rounded-full px-2 py-2 text-ink-soft no-underline">
             Guides
           </Link>
           <Link
             to="/guides/2026-malta-nrp-guide"
-            className="inline-flex min-h-[38px] items-center whitespace-nowrap rounded-full bg-luzzu px-4 font-bold text-ink no-underline hover:brightness-95"
+            className="inline-flex min-h-[38px] items-center whitespace-nowrap rounded-full bg-luzzu px-3.5 sm:px-4 font-bold text-ink no-underline hover:brightness-95"
           >
             Start here
           </Link>

@@ -40,7 +40,7 @@ export default function HomePage() {
   useSeo({
     title: 'NomadMalta — The Malta nomad permit, without the brochure copy',
     description:
-      'Working guides on the Malta Nomad Residence Permit. Cost, process, eligibility, and the edge cases nobody else publishes.',
+      'Live in Malta on the Nomad Residence Permit: the real upfront cost, who qualifies, the 10% flat tax, and who shouldn\'t apply. Independent guides written from Malta.',
     canonicalPath: '/',
     jsonLd: withOrg(website, {
       '@context': 'https://schema.org',
@@ -63,35 +63,60 @@ export default function HomePage() {
   return (
     <>
       {/* ============== HERO ============== */}
-      <section className="container max-w-5xl pt-12 pb-14 md:pt-24 md:pb-20">
+      <section className="container max-w-5xl pt-12 pb-12 md:pt-24 md:pb-16">
         <div className="eyebrow live-dot mb-5">Independent · Written from Malta · Updated quarterly</div>
         <h1 className="display text-[40px] leading-[1] md:text-7xl max-w-4xl mb-6">
-          The Malta nomad permit, <em>without the brochure copy.</em>
+          Live in Malta on the nomad permit. <em>Know the real numbers first.</em>
         </h1>
         <p className="text-lg md:text-2xl text-ink-soft leading-relaxed max-w-3xl">
-          Real costs, eligibility traps, the 10% tax in practice, and who
-          shouldn't bother. Editorial guides for non-EU professionals
-          considering Malta as a 1–4 year base.
+          The Nomad Residence Permit lets non-EU remote workers base
+          themselves in Malta for up to four years, with a 10% flat tax from
+          year two. This site covers what the brochures skip: the real cost,
+          the eligibility traps, and who shouldn't bother.
         </p>
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <a href="#fit" className="btn-y">Check if it fits you</a>
+          <Link to="/guides/2026-malta-nrp-guide" className="btn-o">Read the 2026 guide</Link>
+        </div>
         <dl className="mt-10 grid grid-cols-2 gap-3 md:grid-cols-4 max-w-4xl">
-          <Stat value="€42K" label="Minimum income / year" />
-          <Stat value="10%" label="Flat tax, year 2+" />
           <Stat value="4 years" label="Maximum stay" />
-          <Stat value="1,031" label="2024 applications" />
+          <Stat value="10%" label="Flat tax, year 2+" />
+          <Stat value="€42K" label="Minimum income / year" />
+          <Stat value="~€19,700" label="Real upfront cost, one person" />
         </dl>
       </section>
 
-      {/* ============== WHAT THIS SITE DOES ============== */}
-      <Section id="method">
-        <SectionHead label="Method" subhead="Four jobs, in the order most readers use them.">
-          What this site <em>actually does.</em>
+      {/* ============== FIT ============== */}
+      <Section id="fit">
+        <SectionHead label="Is it for you?" subhead="The short version of the “Who shouldn't apply” section in the 2026 guide.">
+          A good fit for some. <em>The wrong move for others.</em>
         </SectionHead>
         <div className="mt-8 grid grid-cols-1 gap-3 md:grid-cols-2">
-          <Job heading="Decide" body="Help you work out whether the Malta NRP fits your situation, before you spend money." />
-          <Job heading="Compare" body="Side-by-side with Portugal D8, Spain DNV, Greece, Italy, Slovenia. Rent and tax, not just headline numbers." />
-          <Job heading="Find" body="Vetted licensed agents, property letting agencies, banks, insurers, accountants — across the four-year journey." />
-          <Job heading="Stay" body="Renewal years, the 10% tax in practice, family edge cases, and what comes after year four." />
+          <div className="card p-5 md:p-6">
+            <h3 className="eyebrow mb-4 text-sea">Likely a good fit if you</h3>
+            <ul className="grid gap-3 text-[15px] text-ink-soft">
+              <FitItem good>Earn well above €42K from foreign clients or a foreign employer</FitItem>
+              <FitItem good>Want an EU base with English as an official language</FitItem>
+              <FitItem good>Plan to stay one to four years, not forever</FitItem>
+              <FitItem good>Can spend at least five months a year in Malta</FitItem>
+            </ul>
+          </div>
+          <div className="card p-5 md:p-6">
+            <h3 className="eyebrow mb-4 text-flag">Probably not if you</h3>
+            <ul className="grid gap-3 text-[15px] text-ink-soft">
+              <FitItem>Earn close to the €42K floor with no path to growth</FitItem>
+              <FitItem>Want a path to citizenship or permanent residence</FitItem>
+              <FitItem>Have any Maltese client revenue</FitItem>
+              <FitItem>Want to keep moving instead of staying 5+ months a year</FitItem>
+            </ul>
+          </div>
         </div>
+        <p className="mt-5 text-base text-ink-soft">
+          <Link to="/guides/2026-malta-nrp-guide#who-shouldnt-apply" className="font-semibold text-sea hover:underline">
+            The full list, with the reasons
+          </Link>{' '}
+          — including the tax catch for Americans.
+        </p>
       </Section>
 
       {/* ============== ELIGIBILITY ============== */}
@@ -216,6 +241,27 @@ export default function HomePage() {
         </div>
       </Section>
 
+      {/* ============== CHEAT SHEET ============== */}
+      <section className="container max-w-5xl pt-16 md:pt-24">
+        <div className="panel-dark rounded-[24px] px-6 py-10 md:px-12 md:py-14">
+          <div className="relative max-w-2xl">
+            <div className="eyebrow-dark mb-4">One-page summary</div>
+            <h2 className="font-display text-3xl md:text-5xl font-extrabold leading-tight text-white mb-5">
+              The Malta Nomad Permit Cheat Sheet, 2026.
+            </h2>
+            <p className="text-lg text-on-dark-mute leading-relaxed mb-8">
+              One A4 page. The condensed reference for when you're actually applying — print it, give it to your accountant, keep it on your phone. Everything else lives in the <Link to="/guides" className="font-semibold text-on-dark underline">guides</Link>. This is the page you'll come back to.
+            </p>
+            <a href="https://nomadmalta.beehiiv.com/subscribe" target="_blank" rel="noopener noreferrer" className="btn-y">
+              Get the cheat sheet <span aria-hidden="true">→</span>
+            </a>
+            <p className="mt-4 text-xs text-on-dark-mute">
+              We won't email you weekly. Future emails only when regulations change or something significant publishes.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* ============== DIRECTORY ============== */}
       <Section id="directory" wide>
         <SectionHead label="Directory" subhead="Vetted partners across the four-year customer journey. Affiliate links earn a fee. Independent listings don't. Both are tagged so you can tell.">
@@ -272,27 +318,6 @@ export default function HomePage() {
         </p>
       </Section>
 
-      {/* ============== CHEAT SHEET ============== */}
-      <section className="container max-w-5xl pt-16 md:pt-24">
-        <div className="panel-dark rounded-[24px] px-6 py-10 md:px-12 md:py-14">
-          <div className="relative max-w-2xl">
-            <div className="eyebrow-dark mb-4">One-page summary</div>
-            <h2 className="font-display text-3xl md:text-5xl font-extrabold leading-tight text-white mb-5">
-              The Malta Nomad Permit Cheat Sheet, 2026.
-            </h2>
-            <p className="text-lg text-on-dark-mute leading-relaxed mb-8">
-              One A4 page. The condensed reference for when you're actually applying — print it, give it to your accountant, keep it on your phone. Everything else lives in the <Link to="/guides" className="font-semibold text-on-dark underline">guides</Link>. This is the page you'll come back to.
-            </p>
-            <a href="https://nomadmalta.beehiiv.com/subscribe" target="_blank" rel="noopener noreferrer" className="btn-y">
-              Get the cheat sheet <span aria-hidden="true">→</span>
-            </a>
-            <p className="mt-4 text-xs text-on-dark-mute">
-              We won't email you weekly. Future emails only when regulations change or something significant publishes.
-            </p>
-          </div>
-        </div>
-      </section>
-
       {/* ============== FAQ ============== */}
       <Section id="faq">
         <SectionHead label="FAQ" subhead="Plain answers to the seven questions readers ask most often. Longer answers in the guides.">
@@ -308,6 +333,19 @@ export default function HomePage() {
               <p className="pb-5 text-base text-ink-soft leading-relaxed">{f.a}</p>
             </details>
           ))}
+        </div>
+      </Section>
+
+      {/* ============== WHAT THIS SITE DOES ============== */}
+      <Section id="method">
+        <SectionHead label="Method" subhead="Four jobs, in the order most readers use them.">
+          What this site <em>actually does.</em>
+        </SectionHead>
+        <div className="mt-8 grid grid-cols-1 gap-3 md:grid-cols-2">
+          <Job heading="Decide" body="Help you work out whether the Malta NRP fits your situation, before you spend money." />
+          <Job heading="Compare" body="Side-by-side with Portugal D8, Spain DNV, Greece, Italy, Slovenia. Rent and tax, not just headline numbers." />
+          <Job heading="Find" body="Vetted licensed agents, property letting agencies, banks, insurers, accountants — across the four-year journey." />
+          <Job heading="Stay" body="Renewal years, the 10% tax in practice, family edge cases, and what comes after year four." />
         </div>
       </Section>
 
@@ -332,6 +370,22 @@ function Section({ id, wide, children }: { id?: string; wide?: boolean; children
     <section id={id} className={`container ${wide ? 'max-w-6xl' : 'max-w-5xl'} pt-16 md:pt-24 scroll-mt-20`}>
       {children}
     </section>
+  );
+}
+
+function FitItem({ good, children }: { good?: boolean; children: React.ReactNode }) {
+  return (
+    <li className="flex gap-3">
+      <span
+        aria-hidden="true"
+        className={`mt-0.5 flex h-5 w-5 flex-none items-center justify-center rounded-full text-[12px] font-bold ${
+          good ? 'bg-sea/15 text-sea' : 'bg-flag/10 text-flag'
+        }`}
+      >
+        {good ? '✓' : '×'}
+      </span>
+      <span>{children}</span>
+    </li>
   );
 }
 

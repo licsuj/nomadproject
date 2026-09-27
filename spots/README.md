@@ -73,6 +73,10 @@ A public view count is allowed only if you read it yourself, with the date. In d
 
 Affiliate commissions don't need emails, because they're tracked by the link click. Add this only after the copy-rate test passes, and drop it if fewer than 2% of visitors sign up after 500 scans.
 
+## Link to NomadMalta
+
+Every spot page has a small "Staying longer than a holiday?" card that links to nomadmalta.com. The link is tagged `utm_source=spots`, so you can see in analytics how much traffic spots sends. Change it with `NOMAD_URL` at the top of `assets/board.js`. Clicks are tracked as the `nomadmalta` event.
+
 ## Money slots (both hidden or passive by default)
 
 - `boat.url`: boat-trip affiliate link. The link and its disclosure only appear once a URL is set.
