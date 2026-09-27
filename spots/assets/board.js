@@ -22,7 +22,7 @@ const UI = {
     eyebrow:"Checked by hand", h1:"What people post from <em>this exact spot</em>",
     sub:"Real posts from this viewpoint, what they share, and one you can shoot in 5 minutes.",
     make:"Make this post", free:"Free · no sign-up",
-    hook:"Hook", easy:"Easy to copy", car:"Needs a car", open:"Open post ↗", pending:"Link pending", illus:"Illustration · verified post goes here", illusPublic:"Illustration", illusOpen:"Illustration · open the post to watch", subNone:"The kinds of posts people make from this viewpoint, what they share, and one you can shoot in 5 minutes.",
+    hook:"Hook", easy:"Easy to copy", car:"Needs a car", boat:"Needs a boat trip", open:"Open post ↗", pending:"Link pending", illus:"Illustration · verified post goes here", illusPublic:"Illustration", illusOpen:"Illustration · open the post to watch", subNone:"The kinds of posts people make from this viewpoint, what they share, and one you can shoot in 5 minutes.",
     workH:"What's working here", slots:"Seen in posts {s}", allPosts:"Seen in all {n} posts", check:"to check",
     monthLead:"{n} public posts checked · {p}", monthEx:"Example numbers until this month's count is in.",
     monthNote:"Counted by hand. Not reach or ranking data.",
@@ -48,7 +48,7 @@ const UI = {
     eyebrow:"人工核对", h1:"这个机位，<br><em>大家都在拍什么</em>",
     sub:"这里的真实帖子、它们的共同点，和一条 5 分钟就能拍完的同款。",
     make:"拍同款", free:"免费 · 无需注册",
-    hook:"开头", easy:"容易拍", car:"需要开车", open:"查看原帖 ↗", pending:"链接待补充", illus:"示意图 · 待放入已核实的帖子", illusPublic:"示意图", illusOpen:"示意图 · 点“查看原帖”观看", subNone:"这个机位常见的帖子类型、它们的共同点，和一条 5 分钟就能拍完的同款。",
+    hook:"开头", easy:"容易拍", car:"需要开车", boat:"需要坐船", open:"查看原帖 ↗", pending:"链接待补充", illus:"示意图 · 待放入已核实的帖子", illusPublic:"示意图", illusOpen:"示意图 · 点“查看原帖”观看", subNone:"这个机位常见的帖子类型、它们的共同点，和一条 5 分钟就能拍完的同款。",
     workH:"这里什么内容有效", slots:"见于帖子 {s}", allPosts:"{n} 条帖子都是这样", check:"待核对",
     monthLead:"已查看 {n} 条公开帖子 · {p}", monthEx:"本月统计完成前，显示的是示例数字。",
     monthNote:"人工统计，不是流量或排名数据。",
@@ -131,6 +131,7 @@ const ICON = {
   eye:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>`,
   arrow:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V5M6 11l6-6 6 6"/></svg>`,
   pin:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Z"/><circle cx="12" cy="10" r="2.5"/></svg>`,
+  person:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="7" r="3.2"/><path d="M5.5 20a6.5 6.5 0 0 1 13 0"/></svg>`,
   save:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M6 3h12v18l-6-4-6 4Z"/></svg>`
 };
 const PLAT = { tiktok:"TikTok", instagram:"Instagram", red:"小红书", douyin:"抖音" };
@@ -172,7 +173,7 @@ function render(){
         <div class="hookline"><small>${T.hook}</small>${esc(c.hook)}</div>
       </div>
       <p class="why">${esc(c.why)}</p>
-      <div class="postfoot"><span class="ease${p.ease==="easy"?"":" med"}">${p.ease==="easy"?T.easy:T.car}</span>${link}</div>
+      <div class="postfoot"><span class="ease${p.ease==="easy"?"":" med"}">${T[p.ease]||T.easy}</span>${link}</div>
       ${p.verified&&p.creator?`<div class="credit">${esc(p.creator)}</div>`:""}
     </article>`;
   };

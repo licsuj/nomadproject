@@ -69,7 +69,7 @@ A public view count is allowed only if you read it yourself, with the date. In c
 
 ## Before printing the QR
 
-1. ✅ 5 verified posts added. Still to do: add the creator handle for posts 2 and 3. Once you say which posts open on the water and which reveal the arch, the "Colour first" and "Reveal the arch" patterns can go back on the page (they're preview-only until then).
+1. ✅ 5 verified posts added with creator credit and what each one shows. Patterns and the monthly count are based on those 5 posts.
 2. Leave `thumb` empty unless the creator has given written permission.
 3. Fix each pattern's `seenIn`, and delete any pattern that appears in fewer than 2 posts.
 4. ✅ `@maltashotboard` added for Instagram and TikTok. Still to do: add your 小红书 ID to `handles.red`. Keep the `trackTag` tags. Search both weekly by hand.
