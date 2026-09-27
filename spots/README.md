@@ -75,8 +75,8 @@ A public view count is allowed only if you read it yourself, with the date. In c
 4. ✅ `@maltashotboard` added for Instagram and TikTok. Still to do: add your 小红书 ID to `handles.red`. Keep the `trackTag` tags. Search both weekly by hand.
 5. ✅ Map coordinates added (the Chinese page now shows a 高德 link).
 6. ✅ Contact set to hello@nomadmalta.com.
-7. Set `draft: false` in `data.js`.
-8. Delete the `<meta name="robots" content="noindex">` line in both `blue-grotto/index.html` and `blue-grotto/zh/index.html`, so search engines can list the page.
+7. ✅ Live: `draft: false`.
+8. ✅ Search engines allowed. `sitemap.xml` and `robots.txt` added. When you add a spot, add its two URLs to `sitemap.xml`.
 
 ## Email (optional, English page only)
 

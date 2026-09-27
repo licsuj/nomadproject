@@ -7,7 +7,7 @@
 window.LOCATION = {
   slug: "blue-grotto",
   curatedOn: "2026-09-27",
-  draft: true,                       // set false once every post slot is verified
+  draft: false,                      // live since 2026-09-27
 
   name:  { en: "Blue Wall & Grotto Viewpoint", zh: "马耳他蓝洞观景台" },
   area:  { en: "Wied iż-Żurrieq, Żurrieq, Malta", zh: "Blue Wall & Grotto Viewpoint · 马耳他 Żurrieq" },
