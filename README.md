@@ -2,6 +2,10 @@
 
 Editorial site covering the Malta Nomad Residence Permit. Built with Vite, React, TypeScript, Tailwind CSS, and react-markdown. Articles live as `.md` files in the repo and render at `/guides/[slug]`.
 
+The repo also holds **spots.nomadmalta.com** (the Malta Shot Board QR pages) in `spots/`. That's a separate static site deployed as its own Vercel project. See `spots/README.md`.
+
+Monetisation options for both sites are in `docs/monetization.md`.
+
 ## Stack
 
 - **Vite** — build tool and dev server
@@ -10,7 +14,7 @@ Editorial site covering the Malta Nomad Residence Permit. Built with Vite, React
 - **Tailwind CSS** — utility-first styling
 - **@tailwindcss/typography** — prose styling for articles
 - **react-markdown + remark-gfm** — markdown rendering with GitHub-flavored extensions (tables, strikethrough)
-- **gray-matter** — frontmatter parsing
+- **Custom frontmatter parser** (`src/lib/articles.ts`), with no extra dependency
 - **react-router-dom v6** — client-side routing
 
 Total production dependencies: 6. No bloat.
@@ -49,9 +53,27 @@ nomadmalta/
 ├── tailwind.config.ts
 ├── tsconfig.json
 ├── tsconfig.node.json
-├── vercel.json                     # SPA routing rewrite
+├── scripts/prerender.mjs           # Writes static HTML per page + sitemap.xml + llms.txt
+├── src/entry-server.tsx            # Build-time renderer used by the prerender step
+├── spots/                          # spots.nomadmalta.com (separate Vercel project)
+├── docs/monetization.md
+├── vercel.json                     # Clean URLs (/guides/foo serves guides/foo.html)
 └── vite.config.ts
 ```
+
+## How pages reach Google and AI search
+
+`npm run build` does three things:
+
+1. `vite build`: the normal browser bundle.
+2. `vite build --ssr src/entry-server.tsx`: a build-time renderer.
+3. `node scripts/prerender.mjs`: writes a full static HTML file for every page into `dist/`. Each file has its own title, description, canonical URL, Open Graph tags and JSON-LD structured data. The script also writes `sitemap.xml`, using each guide's `updated` date, and `llms.txt`, a plain list of pages for AI assistants.
+
+Before this change, every URL returned an empty page until JavaScript ran, and most AI crawlers don't run JavaScript. Now the full article text is in the HTML. React then takes over in the browser as before.
+
+**New article:** add the `.md` file and nothing else. The sitemap, llms.txt and the page's HTML are generated on the next deploy. Don't edit a sitemap by hand; `public/sitemap.xml` has been removed.
+
+**New page (route):** add it to `App.tsx` **and** to `routes()` in `src/entry-server.tsx`, or it won't be prerendered.
 
 ## Deployment to Vercel (the right way)
 
@@ -123,22 +145,21 @@ order: 2
 
 Color tokens are defined as HSL CSS variables in `src/styles/index.css`. Tailwind config maps them to utility classes:
 
-| Token | Usage |
-|---|---|
-| `bg-background` / `text-ink` | Default page surface and text |
-| `bg-paper` | Section dividers, cards |
-| `text-ink-soft` | Body paragraph text |
-| `text-ink-mute` | Captions, metadata |
-| `text-sea` | Hyperlinks |
-| `text-accent` (terracotta) | Category labels, monospace eyebrows |
-| `border-border` | All rules and dividers |
+Same visual system as spots.nomadmalta.com (`spots/assets/board.css`). Colours are defined in `tailwind.config.ts`:
 
-Fonts:
-- `font-display` — Fraunces (headlines, italic accents)
-- `font-sans` — Inter (body)
-- `font-mono` — JetBrains Mono (eyebrows, metadata)
+| Token | Hex | Usage |
+|---|---|---|
+| `salt` | #EEF3F3 | Page background (limestone) |
+| `card` | #FFFFFF | Cards |
+| `ink` / `ink-soft` / `ink-mute` | #0B1A24 / #2F4552 / #50636E | Headings / body / captions |
+| `grotto` | #08395F | Dark panels (article header, featured guide, footer) |
+| `sea` | #0079BA | Links and highlighted words in headings (`<em>`) |
+| `luzzu` | #F6C21C | Primary buttons only |
+| `line` | #D3DEE0 | Rules and borders |
 
-To change the palette, edit only the HSL values at the top of `src/styles/index.css`. Everything else updates automatically.
+Shared classes live in `src/styles/index.css`: `.display`, `.eyebrow`, `.card`, `.btn-y`, `.btn-o`, `.btn-ink`, `.panel-dark`, `.chip`.
+
+Fonts: Bricolage Grotesque (headings), Instrument Sans (body), JetBrains Mono (labels).
 
 ## What this site does NOT do
 
@@ -149,7 +170,7 @@ By design, the project doesn't include:
 - Newsletter signup forms (decide separately; can add to footer later)
 - Author bio blocks (intentionally — your moat is editorial voice)
 - shadcn/ui or any component library (custom components only — fewer dependencies, easier to maintain)
-- Server-side rendering (Vite SPA is sufficient at your traffic levels)
+- A server (pages are prerendered to static HTML at build time; there is nothing running at request time)
 
 Add these only when you have evidence they're needed.
 
