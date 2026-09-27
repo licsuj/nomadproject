@@ -20,8 +20,8 @@ const UI = {
     eyebrow:"Posted from here", h1:"What people post from <em>this exact spot</em>",
     sub:"Real posts from this viewpoint, what they share, and one you can shoot in 5 minutes.",
     make:"Make this post", free:"Free · no sign-up",
-    hook:"Hook", easy:"Easy to copy", car:"Needs a car", open:"Open post ↗", pending:"Link pending", illus:"Illustration · verified post goes here", illusPublic:"Illustration", subNone:"The kinds of posts people make from this viewpoint, what they share, and one you can shoot in 5 minutes.",
-    workH:"What's working here", slots:"Slots {s}", check:"to check",
+    hook:"Hook", easy:"Easy to copy", car:"Needs a car", open:"Open post ↗", pending:"Link pending", illus:"Illustration · verified post goes here", illusPublic:"Illustration", illusOpen:"Illustration · open the post to watch", subNone:"The kinds of posts people make from this viewpoint, what they share, and one you can shoot in 5 minutes.",
+    workH:"What's working here", slots:"Seen in posts {s}", allPosts:"Seen in all {n} posts", check:"to check",
     monthLead:"{n} public posts checked · {p}", monthEx:"Example numbers until this month's count is in.",
     monthNote:"Counted by hand. Not reach or ranking data.",
     fmt:{ reel:"Reels", carousel:"Carousels", photo:"Photos", video:"Videos" },
@@ -46,8 +46,8 @@ const UI = {
     eyebrow:"在这里发出的帖子", h1:"这个机位，<br><em>大家都在拍什么</em>",
     sub:"这里的真实帖子、它们的共同点，和一条 5 分钟就能拍完的同款。",
     make:"拍同款", free:"免费 · 无需注册",
-    hook:"开头", easy:"容易拍", car:"需要开车", open:"查看原帖 ↗", pending:"链接待补充", illus:"示意图 · 待放入已核实的帖子", illusPublic:"示意图", subNone:"这个机位常见的帖子类型、它们的共同点，和一条 5 分钟就能拍完的同款。",
-    workH:"这里什么内容有效", slots:"见位置 {s}", check:"待核对",
+    hook:"开头", easy:"容易拍", car:"需要开车", open:"查看原帖 ↗", pending:"链接待补充", illus:"示意图 · 待放入已核实的帖子", illusPublic:"示意图", illusOpen:"示意图 · 点“查看原帖”观看", subNone:"这个机位常见的帖子类型、它们的共同点，和一条 5 分钟就能拍完的同款。",
+    workH:"这里什么内容有效", slots:"见于帖子 {s}", allPosts:"{n} 条帖子都是这样", check:"待核对",
     monthLead:"已查看 {n} 条公开帖子 · {p}", monthEx:"本月统计完成前，显示的是示例数字。",
     monthNote:"人工统计，不是流量或排名数据。",
     fmt:{ reel:"短视频", carousel:"图文", photo:"单图", video:"视频" },
@@ -70,12 +70,14 @@ const UI = {
   }
 };
 
-/* ---------- analytics hook: no-op unless a cookie-free script like Plausible is on the page ---------- */
+/* ---------- analytics hook: sends events to Umami (or Plausible) when its script is on the page ---------- */
 let sticker = null;
 try { sticker = new URLSearchParams(location.search).get("q"); } catch(e){}
 let lang;
 function track(name, extra){
-  try { if (typeof window.plausible === "function") window.plausible(name, { props: Object.assign({ lang, loc: L.slug, sticker: sticker || "none" }, extra || {}) }); } catch(e){}
+  const props = Object.assign({ lang, loc: L.slug, sticker: sticker || "none" }, extra || {});
+  try { if (window.umami && typeof window.umami.track === "function") window.umami.track(name, props); } catch(e){}
+  try { if (typeof window.plausible === "function") window.plausible(name, { props }); } catch(e){}
 }
 
 /* ---------- language + fonts ---------- */
@@ -143,14 +145,17 @@ function render(){
 
   const post = (p,i) => {
     const c = p[lang];
-    const media = p.thumb && p.verified ? `<img src="${esc(p.thumb)}" alt="${esc(p.creator)}" loading="lazy">` : scene(p.scene,i);
+    const hasThumb = p.thumb && p.verified;
+    // Real post without a permitted thumbnail: neutral drawing (no motion arrows) and a clear label
+    const media = hasThumb ? `<img src="${esc(p.thumb)}" alt="${esc(p.creator)}" loading="lazy">` : scene(p.verified ? "plain" : p.scene, i);
+    const mark = hasThumb ? "" : p.verified ? T.illusOpen : (PREVIEW ? T.illus : T.illusPublic);
     const link = p.verified && p.url
       ? `<a class="open" data-track="open_post" data-slot="${i+1}" href="${esc(p.url)}" target="_blank" rel="noopener">${T.open}</a>`
       : PREVIEW ? `<span class="open off">${T.pending}</span>` : "";
     return `<article class="post${p.verified||!PREVIEW?"":" unverified"}">
       <div class="thumb">${media}
         <div class="top"><span class="badge ${p.platform}">${PLAT[p.platform]||p.platform}</span><span class="fmt">${esc(c.format)}</span></div>
-        ${p.verified?"":`<div class="slotmark">${PREVIEW?T.illus:T.illusPublic}</div>`}
+        ${mark?`<div class="slotmark">${mark}</div>`:""}
         <div class="hookline"><small>${T.hook}</small>${esc(c.hook)}</div>
       </div>
       <p class="why">${esc(c.why)}</p>
@@ -229,10 +234,11 @@ function render(){
     <section id="working">
       <h2>${T.workH}</h2>
       ${month()}
-      <ul class="patterns">${L.patterns.map(pt=>{
+      <ul class="patterns">${L.patterns.filter(pt=>pt.seenIn.length||PREVIEW).map(pt=>{
         const ok = pt.seenIn.filter(n=>L.posts[n-1]&&L.posts[n-1].verified);
-        return `<li><span class="ico">${ICON[pt.icon]||""}</span><div><h3>${esc(pt[lang].title)}</h3><p>${esc(pt[lang].body)}</p>
-          <span class="ev${ok.length?"":" todo"}">${fill(T.slots,{s:pt.seenIn.join(", ")})}${ok.length?"":` · ${T.check}`}</span></div></li>`;
+        const ev = !pt.seenIn.length ? `<span class="ev todo">${T.check}</span>`
+          : `<span class="ev${ok.length?"":" todo"}">${pt.seenIn.length===L.posts.length ? fill(T.allPosts,{n:L.posts.length}) : fill(T.slots,{s:pt.seenIn.join(", ")})}${ok.length?"":` · ${T.check}`}</span>`;
+        return `<li><span class="ico">${ICON[pt.icon]||""}</span><div><h3>${esc(pt[lang].title)}</h3><p>${esc(pt[lang].body)}</p>${ev}</div></li>`;
       }).join("")}</ul>
     </section>
 

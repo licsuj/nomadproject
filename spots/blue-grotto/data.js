@@ -45,27 +45,31 @@ window.LOCATION = {
   signup: { action: "" },
 
   posts: [
-    { verified:false, platform:"tiktok", scene:"reveal", url:"", creator:"", thumb:"", ease:"easy",
-      en:{ format:"Reveal video", hook:"Tight on turquoise water, then the camera tilts up to the arch.", why:"The first second is pure colour, so you keep watching to see where it is." },
-      zh:{ format:"揭晓式短视频", hook:"先拍一片蓝绿色海水，再慢慢抬镜头露出拱门。", why:"第一秒只有颜色，让人想看下去这是哪里。" } },
-    { verified:false, platform:"instagram", scene:"carousel", url:"", creator:"", thumb:"", ease:"easy",
-      en:{ format:"Carousel guide", hook:"Wide cover with the spot's name, then detail slides and a 'how to get here' slide.", why:"It works as a saveable mini-guide, not just a pretty photo." },
-      zh:{ format:"图文攻略", hook:"封面是全景加地名，后面是细节图和“怎么去”。", why:"像一份可以收藏的小攻略，不只是一张好看的照片。" } },
-    { verified:false, platform:"instagram", scene:"person", url:"", creator:"", thumb:"", ease:"easy",
-      en:{ format:"Reel · person in frame", hook:"Back to camera at the railing, arch and Filfla islet behind.", why:"A person in the view makes it read as 'I was here'." },
-      zh:{ format:"人物入镜", hook:"背对镜头站在护栏边，身后是拱门和 Filfla 小岛。", why:"画面里有人，就是“我来过这里”的打卡感。" } },
-    { verified:false, platform:"tiktok", scene:"pov", url:"", creator:"", thumb:"", ease:"car",
-      en:{ format:"POV road stop", hook:"\"POV: you pull over on the coast road and see this.\"", why:"Shows how close the view is to the road, which makes people want to go." },
-      zh:{ format:"第一视角", hook:"“开车路过海边，停下来就看到了这个。”", why:"让人知道这个景就在路边，很容易去。" } }
+    // Verified by Justin (filmed from the viewpoint). Hook = how the caption opens; update if you add what the first seconds show.
+    { verified:true, platform:"instagram", scene:"reveal", url:"https://www.instagram.com/dittusandmate/reel/C7lqB3TsDkj/", creator:"@dittusandmate", thumb:"", ease:"easy",
+      en:{ format:"Reel", hook:"“The most beautiful viewpoint in Malta 🤯😍”", why:"A big claim in the first line, then the location pin." },
+      zh:{ format:"短视频", hook:"“马耳他最美的观景点 🤯😍”", why:"第一句就给出强烈结论，再加上定位。" } },
+    { verified:true, platform:"instagram", scene:"carousel", url:"https://www.instagram.com/p/DR789V7jqMa/", creator:"", thumb:"", ease:"easy",
+      en:{ format:"Post", hook:"“The Blue Grotto in Zurrieq is one of Malta's most iconic…”", why:"Opens with the full place name and why it's famous." },
+      zh:{ format:"帖子", hook:"“Żurrieq 的蓝洞是马耳他最具代表性的……”", why:"开头就写全地名，并说明它为什么有名。" } },
+    { verified:true, platform:"instagram", scene:"person", url:"https://www.instagram.com/p/DUTtM92DhHH/", creator:"", thumb:"", ease:"easy",
+      en:{ format:"Post", hook:"“📍Blue Grotto, Malta 🇲🇹 We woke up early and came…”", why:"Pin and flag first, then a small personal story." },
+      zh:{ format:"帖子", hook:"“📍马耳他蓝洞 🇲🇹 我们一早就出发……”", why:"先放定位和国旗，再讲一个小故事。" } },
+    { verified:true, platform:"instagram", scene:"reveal", url:"https://www.instagram.com/lifeisjovial/p/DC57x2Att4A/", creator:"@lifeisjovial", thumb:"", ease:"easy",
+      en:{ format:"Post", hook:"“Blue Grotto in Wied iż-Żurrieq, in the south of Malta.”", why:"Plain and searchable: the exact place name in line one." },
+      zh:{ format:"帖子", hook:"“马耳他南部 Wied iż-Żurrieq 的蓝洞。”", why:"简单直接，第一句就是准确地名，方便搜索。" } },
+    { verified:true, platform:"tiktok", scene:"person", url:"https://www.tiktok.com/@flyingsapphire/video/7242781192506952965", creator:"@flyingsapphire", thumb:"", ease:"easy",
+      en:{ format:"Video", hook:"“Visiting Blue Grotto is a must during your stay in Malta 🇲🇹”", why:"Framed as a must-see tip, so people save it for their trip." },
+      zh:{ format:"短视频", hook:"“来马耳他一定要去蓝洞 🇲🇹”", why:"写成“必去”建议，别人会收藏起来备用。" } }
   ],
 
   patterns: [
-    { icon:"eye",   seenIn:[1,3],   en:{ title:"Colour first", body:"The opening frame is the blue water up close, before any context." },
+    { icon:"eye",   seenIn:[],   en:{ title:"Colour first", body:"The opening frame is the blue water up close, before any context." },
                                    zh:{ title:"第一秒先给颜色", body:"开头先拍近处的蓝色海水，不急着交代在哪里。" } },
-    { icon:"arrow", seenIn:[1,2,4], en:{ title:"Then reveal the arch", body:"The full view (arch plus Filfla islet) comes after the close-up." },
+    { icon:"arrow", seenIn:[], en:{ title:"Then reveal the arch", body:"The full view (arch plus Filfla islet) comes after the close-up." },
                                    zh:{ title:"再揭晓拱门全景", body:"特写之后，才出现拱门和 Filfla 小岛的全景。" } },
-    { icon:"pin",   seenIn:[2,4],   en:{ title:"Name it, give a reason to save", body:"The caption says Blue Grotto, Malta and adds one useful line, like \"no boat needed\"." },
-                                   zh:{ title:"写清地名，给出收藏理由", body:"标题写明“马耳他蓝洞”，再加一句实用信息，比如“不用坐船”。" } }
+    { icon:"pin",   seenIn:[1,2,3,4,5], en:{ title:"Name the spot in the first line", body:"All five captions put Blue Grotto in the opening line, most with Malta or a 📍 pin, so the post is easy to find in search." },
+                                   zh:{ title:"第一句写清地名", body:"五条帖子的第一句都写了“Blue Grotto（蓝洞）”，大多还加了马耳他或 📍 定位，方便被搜索到。" } }
   ],
 
   recipe: {

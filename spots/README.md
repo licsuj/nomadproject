@@ -69,7 +69,7 @@ A public view count is allowed only if you read it yourself, with the date. In c
 
 ## Before printing the QR
 
-1. Fill 3–5 `posts` with verified public posts filmed **from this viewpoint** (the arch from above, Filfla on the horizon). Set `verified: true`, `url` and `creator`. Rewrite `hook`/`why` in both languages based on the real post.
+1. ✅ 5 verified posts added. Still to do: add the creator handle for posts 2 and 3. Once you say which posts open on the water and which reveal the arch, the "Colour first" and "Reveal the arch" patterns can go back on the page (they're preview-only until then).
 2. Leave `thumb` empty unless the creator has given written permission.
 3. Fix each pattern's `seenIn`, and delete any pattern that appears in fewer than 2 posts.
 4. Register your accounts and fill `handles`. Keep the `trackTag` tags. Search both weekly by hand.
@@ -95,6 +95,7 @@ Every spot page has a small "Staying longer than a holiday?" card that links to 
 
 ## Measuring
 
-- Give each sticker its own QR URL: `/blue-grotto/?q=bg-railing-1`.
-- Uncomment the Plausible lines in both `index.html` files (cookie-free). The page already sends these events with `lang`, `sticker` and `loc`: `board_view`, `copy_caption` (with caption number), `copy_hashtags`, `copy_shots`, `switch_format`, `switch_lang`, `open_post`, `open_map`, `boat`, `local_pick`, `moved_prompt`, `moved_stay`, `go_spot`, `find_spot`. Add them as goals in Plausible.
+- **Analytics:** Umami Cloud (cookie-free) is on both pages (`blue-grotto/index.html` and `zh/index.html`). Every event carries `lang`, `sticker` and `loc`: `board_view`, `copy_caption` (with caption number and angle), `copy_hashtags`, `copy_shots`, `switch_format`, `switch_lang`, `open_post`, `open_map`, `boat`, `local_pick`, `nomadmalta`, `moved_prompt`, `moved_stay`, `go_spot`, `find_spot`. They appear in Umami under Events.
+- Chinese visitors on a roaming SIM may not reach cloud.umami.is, so they can be undercounted. The page works either way.
+- Give each sticker its own QR URL: `/q/bg1`, `/q/bg2`… (see `vercel.json`).
 - **Kill test:** after 4 weeks or 200 scans, stop if scans are under about 100, or if fewer than 1 in 5 visitors tap any Copy button.
